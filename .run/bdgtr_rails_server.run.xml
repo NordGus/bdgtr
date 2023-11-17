@@ -28,6 +28,9 @@
     <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
     <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="BROWSER_URL" VALUE="http://localhost:3000" />
     <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
-    <method v="2" />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="bdgtr:db:prepare" run_configuration_type="RakeRunConfigurationType" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="bdgtr:db:migrate" run_configuration_type="RakeRunConfigurationType" />
+    </method>
   </configuration>
 </component>
