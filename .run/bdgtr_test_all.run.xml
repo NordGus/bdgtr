@@ -8,6 +8,9 @@
     <RAKE_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="Bdgtr (ruby-3.2.2)" />
     <RAKE_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
     <envs>
+      <env name="BDGTR_DATABASE_HOST" value="db" />
+      <env name="BDGTR_DATABASE_PASSWORD" value="localdev" />
+      <env name="BDGTR_DATABASE_USER" value="bdgtr" />
       <env name="RAILS_ENV" value="test" />
     </envs>
     <EXTENSION ID="BundlerRunConfigurationExtension" BUNDLE_MODE="AUTO" bundleExecEnabled="true" />
