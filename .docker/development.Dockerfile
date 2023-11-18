@@ -5,6 +5,8 @@
 ARG RUBY_VERSION=3.2.2
 FROM registry.docker.com/library/ruby:$RUBY_VERSION
 
+ENV EDITOR=nano
+
 WORKDIR /usr/src/app
 
 # Install packages needed to build gems and node modules
