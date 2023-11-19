@@ -1,3 +1,4 @@
+# TODO(#1): Refactor into a more streamlined build with just the basics
 # syntax = docker/dockerfile:1
 
 # Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
@@ -21,6 +22,7 @@ FROM base as build
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl git libpq-dev libvips node-gyp pkg-config python-is-python3
 
+# TODO(#2): Remove the necesity of legacy yarn 1.X and use pure npm instead
 # Install JavaScript dependencies
 ARG NODE_VERSION=20.9.0
 ARG YARN_VERSION=latest
@@ -36,6 +38,7 @@ RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
+# TODO(#3): Change it from legacy `yarn install --frozen-lockfile` to `npm ci` instead (needs more research, start [here](https://docs.npmjs.com/cli/v10/commands/npm-ci) and [here](https://stackoverflow.com/questions/63187000/what-is-the-npm-equivalent-of-yarn-install-frozen-lockfile))
 # Install node modules
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
