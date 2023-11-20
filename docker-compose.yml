@@ -11,6 +11,10 @@ services:
     volumes:
       - .:/usr/src/app
     command: tail -f /dev/null
+    environment:
+      BDGTR_DATABASE_HOST: db
+      BDGTR_DATABASE_USER: bdgtr
+      BDGTR_DATABASE_PASSWORD: localdev
     depends_on:
       - db
       - redis
