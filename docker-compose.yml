@@ -21,8 +21,8 @@ services:
     environment:
       POSTGRES_USER: bdgtr
       POSTGRES_PASSWORD: localdev
-    volumes:
-      - bdgtr-db:/var/lib/postgresql/data
+#    volumes:
+#      - bdgtr-db:/var/lib/postgresql/data
 
   redis:
     image: redis:7.2
