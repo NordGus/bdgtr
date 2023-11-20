@@ -23,7 +23,7 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_20_135431) do
   create_table "transactions", force: :cascade do |t|
     t.bigint "from_id", null: false
     t.bigint "to_id", null: false
-    t.decimal "amount", precision: 2, scale: 40
+    t.decimal "amount", precision: 40, scale: 2
     t.date "issued_at"
     t.date "executed_at"
     t.datetime "created_at", null: false
