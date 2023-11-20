@@ -62,6 +62,6 @@ class TransactionTest < ActiveSupport::TestCase
     transaction = Transaction.new(from: accounts(:personal), to: accounts(:expense), amount: 420.69, issued_at: Date.today, executed_at: Date.yesterday)
 
     assert_not transaction.valid?, "must be invalid"
-    assert_includes transaction.errors.messages_for(:executed_at), "can't be blank", "must validate transaction's executed_at is equal or later than issued_at"
+    assert_includes transaction.errors.messages_for(:executed_at), "must be greater than or equal to #{Date.today.to_s}", "must validate transaction's executed_at is equal or later than issued_at"
   end
 end
