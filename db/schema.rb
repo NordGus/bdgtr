@@ -19,4 +19,19 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_20_135431) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "from_id", null: false
+    t.bigint "to_id", null: false
+    t.decimal "amount", precision: 2, scale: 40
+    t.date "issued_at"
+    t.date "executed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["from_id"], name: "transaction_origin_account_reference"
+    t.index ["to_id"], name: "transaction_destination_account_reference"
+  end
+
+  add_foreign_key "transactions", "accounts", column: "from_id", name: "transaction_origin_account_reference"
+  add_foreign_key "transactions", "accounts", column: "to_id", name: "transaction_destination_account_reference"
 end
