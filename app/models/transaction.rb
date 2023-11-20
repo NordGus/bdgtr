@@ -6,5 +6,5 @@ class Transaction < ApplicationRecord
   validates :to_id, comparison: { other_than: :from_id }
   validates :amount, presence: true, comparison: { greater_than: 0 }
   validates :issued_at, presence: true
-  validates :executed_at, comparison: { greater_than_or_equal_to: :issued_at }, if: ->(t) { t.executed_at.present?exec }
+  validates :executed_at, comparison: { greater_than_or_equal_to: :issued_at }, if: ->(t) { t.executed_at.present? }
 end
