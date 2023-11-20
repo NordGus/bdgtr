@@ -39,10 +39,10 @@ class TransactionTest < ActiveSupport::TestCase
   end
 
   test "amount must be greater than 0" do
-    transaction = Account.new
+    transaction = Transaction.new(amount: -420.69)
 
     assert_not transaction.valid?, "must be invalid"
-    assert_includes transaction.errors.messages_for(:amount), "is too short (minimum is 5 characters)", "must validate that transaction's amount value"
+    assert_includes transaction.errors.messages_for(:amount), "must be greater than 0", "must validate that transaction's amount value"
   end
 
   test "issued_at must be present" do
