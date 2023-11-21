@@ -24,7 +24,7 @@ class Finances::Account::Create < Command::Base
   private
 
   def check_if_already_exists
-    return Railway::Response.failure("Account (#{self.name}) already exists.") if Account.find_by_name(self.name)
+    return Railway::Response.failure(self.name, "Account already exists") if Account.find_by_name(self.name)
     Railway::Response.success(self)
   end
 

@@ -15,12 +15,12 @@ class Finances::Account::CreateTest < ActiveSupport::TestCase
     response = command.execute
 
     assert_not response.success?, "must not succeed"
-    assert_includes response.args,
-                    "Account (#{accounts(:personal).name}) already exists.",
-                    "must failed because there's and account with the same name in the system"
+    assert_equal response.args,
+                 [accounts(:personal).name, "Account already exists"],
+                 "must failed because there's an account with the same name in the system"
   end
 
-  test "succeeds to create and new Account" do
+  test "succeeds to create a new Account" do
     account_name = "On the bounce"
     command = ::Finances::Account::Create.new(name: account_name)
     response = nil
