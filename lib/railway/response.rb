@@ -33,5 +33,9 @@ module Railway
 
       self
     end
+
+    def success?
+      type == SUCCESS
+    end
   end
 end
