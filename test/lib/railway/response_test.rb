@@ -1,7 +1,5 @@
 require "test_helper"
 
-require './lib/railway/response'
-
 class ResponseTest < ActiveSupport::TestCase
   test "#new" do
     response = Response.new(:test, "this is a test")
