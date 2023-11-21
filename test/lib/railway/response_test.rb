@@ -1,5 +1,9 @@
 require "test_helper"
 
+# TODO(#4): Create a monkey patch for jsbundling-rails cssbundling-rails to load
+# TODO(#5): Research how to load lib code into the test environment so I don't need this require
+require './lib/railway/response'
+
 class ResponseTest < ActiveSupport::TestCase
   test "#new" do
     response = Response.new(:test, "this is a test")
