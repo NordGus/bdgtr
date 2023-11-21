@@ -23,13 +23,12 @@ class Finances::Account::CreateTest < ActiveSupport::TestCase
   test "succeeds to create a new Account" do
     account_name = "On the bounce"
     command = ::Finances::Account::Create.new(name: account_name)
-    response = nil
 
     assert_difference "Account.count", 1, "must create an Account" do
       response = command.execute
-    end
 
-    assert response&.success?, "must succeed"
-    assert_equal response&.args&.first&.name, account_name, "must create the new Account with the correct name"
+      assert response.success?, "must succeed"
+      assert_equal response.args.first.name, account_name, "must create the new Account with the correct name"
+    end
   end
 end
