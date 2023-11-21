@@ -1,7 +1,5 @@
 require "test_helper"
 
-# TODO(#4): Create a monkey patch for jsbundling-rails cssbundling-rails to load
-
 class MockCommand < Command::Base
   attr_accessor :test
 

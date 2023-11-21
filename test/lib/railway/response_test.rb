@@ -1,7 +1,5 @@
 require "test_helper"
 
-# TODO(#4): Create a monkey patch for jsbundling-rails cssbundling-rails to load
-
 class ResponseTest < ActiveSupport::TestCase
   test "#new" do
     response = Railway::Response.new(:test, "this", "is", "a", "test")

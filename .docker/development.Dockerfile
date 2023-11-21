@@ -16,9 +16,12 @@ RUN apt-get update -qq && \
 # Install Javascript dependencies
 # Make sure NODE_VERSION matches the Node version in .node-version
 ARG NODE_VERSION=20.9.0
+ARG YARN_VERSION=stable
 ENV PATH=/usr/local/node/bin:$PATH
 RUN curl -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \
     /tmp/node-build-master/bin/node-build $NODE_VERSION /usr/local/node && \
+    corepack enable && \
+    yarn set version $YARN_VERSION && \
     rm -rf /tmp/node-build-master
 
 # Install application gems
@@ -26,8 +29,8 @@ COPY Gemfile Gemfile.lock ./
 RUN bundle install
 
 # Install node modules
-COPY package.json package-lock.json ./
-RUN npm install
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
 # Copy application code
 COPY . .
