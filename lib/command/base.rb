@@ -1,6 +1,7 @@
 module Command
   class Base
     include ActiveModel::Validations
+    include ActiveModel::Attributes
 
     def execute
       raise NotImplementedError
