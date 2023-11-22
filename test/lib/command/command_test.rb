@@ -1,14 +1,14 @@
 require "test_helper"
 
 class MockCommand < Command::Base
-  attr_accessor :test
+  attribute :value, :string
 
-  validates :test, presence: true
+  validates :value, presence: true
 
-  def initialize(test)
+  def initialize(value)
     super()
 
-    self.test = test
+    self.value = value
   end
 
   def execute
@@ -18,7 +18,7 @@ class MockCommand < Command::Base
   private
 
   def test_action
-    Railway::Response.success(test)
+    Railway::Response.success(self.value)
   end
 end
 
