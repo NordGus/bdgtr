@@ -34,7 +34,7 @@ class Finances::Transaction::DeleteTest < ActiveSupport::TestCase
     )
     command = ::Finances::Transaction::Delete.new(id: transaction.id)
 
-    assert_difference "Account.count", -1, "must delete an Transaction from the system" do
+    assert_difference "Transaction.count", -1, "must delete an Transaction from the system" do
       response = command.execute
 
       assert response.success?, "must succeed"
