@@ -11,12 +11,12 @@ class Finances::Account::DeleteTest < ActiveSupport::TestCase
   end
 
   test "fails when id doesn't belong to any Account" do
-    command = ::Finances::Account::Delete.new(id: "bad_id")
+    command = ::Finances::Account::Delete.new(id: 0)
     response = command.execute
 
     assert_not response.success?, "must not succeed"
     assert_equal response.args,
-                 ["bad_id", "Account not found"],
+                 [0, "Account not found"],
                  "must failed because there's no Account with the given id"
   end
 

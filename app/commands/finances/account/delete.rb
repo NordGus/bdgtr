@@ -5,7 +5,7 @@
 # is to use this commands to eventually migrate the application to a different language
 # or framework.
 class Finances::Account::Delete < Command::Base
-  attr_accessor :id
+  attribute :id, :integer
 
   validates :id, presence: true
 
