@@ -21,12 +21,12 @@ class Finances::Account::UpdateTest < ActiveSupport::TestCase
 
   test "fails when id doesn't belong to any Account" do
     account_name = "On the bounce"
-    command = ::Finances::Account::Update.new(id: "bad_id", name: account_name)
+    command = ::Finances::Account::Update.new(id: 0, name: account_name)
     response = command.execute
 
     assert_not response.success?, "must not succeed"
     assert_equal response.args,
-                 ["bad_id", "Account not found"],
+                 [0, "Account not found"],
                  "must failed because there's no Account with the given id"
   end
 

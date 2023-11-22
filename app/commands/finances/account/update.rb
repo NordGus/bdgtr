@@ -5,7 +5,8 @@
 # is to use this commands to eventually migrate the application to a different language
 # or framework.
 class Finances::Account::Update < Command::Base
-  attr_accessor :id, :name
+  attribute :id, :integer
+  attribute :name, :string
 
   validates :id, presence: true
   validates :name, presence: true
