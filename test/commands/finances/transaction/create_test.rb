@@ -1,7 +1,6 @@
 require "test_helper"
 
 class Finances::Transaction::CreateTest < ActiveSupport::TestCase
-
   class Validation < ActiveSupport::TestCase
     test "from_id presence" do
       parameters = {
@@ -224,7 +223,7 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       }
       command = ::Finances::Transaction::Create.new(**parameters)
 
-      assert_difference "Transaction.count", 1, "must create a new Transaction" do
+      assert_difference "Transaction.count", 1, "must create a new Transaction in the system" do
         response = command.execute
 
         assert response.success?, "must succeed"
