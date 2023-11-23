@@ -170,7 +170,7 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
                          .slice(:from_id, :to_id, :amount, :issued_at, :executed_at)
 
         assert response.success?, "must succeed"
-        assert_equal parameters, output, "must update the Transaction with given parameters"
+        assert_equal parameters, output, "must create the Transaction with given parameters"
       end
     end
   end
@@ -226,7 +226,7 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
                          .slice(:from_id, :to_id, :amount, :issued_at)
 
         assert response.success?, "must succeed"
-        assert_equal parameters, output, "must update the Transaction with given parameters"
+        assert_equal parameters, output, "must create the Transaction with given parameters"
         assert_nil response.args.first.executed_at, "executed_at must be nil"
       end
     end
