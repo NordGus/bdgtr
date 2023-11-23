@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Finances::Transaction::Delete contains the logic to delete an existing Transaction from the system.
+# Balance::Transaction::Delete contains the logic to delete an existing Transaction from the system.
 #
 # Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea is to use this commands to
 # eventually migrate the application to a different language or framework.
-class Finances::Transaction::Delete < Command::Base
+class Balance::Transaction::Delete < Command::Base
   attr_accessor :id, :integer
 
   validates :id, presence: true
