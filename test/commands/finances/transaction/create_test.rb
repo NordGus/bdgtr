@@ -13,10 +13,10 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {from_id: ["can't be blank"]},
-                   "must validate from_id's presence"
+      assert_equal command, response.args.first, "must return an instance of itself"
+      assert_equal( {from_id: ["can't be blank"]},
+                    response.args.last,
+                   "must validate from_id's presence")
     end
 
     test "to_id presence" do
@@ -30,10 +30,10 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {to_id: ["can't be blank"]},
-                   "must validate to_id's presence"
+      assert_equal command, response.args.first, "must return an instance of itself"
+      assert_equal({to_id: ["can't be blank"]},
+                   response.args.last,
+                   "must validate to_id's presence")
     end
 
     test "to_id must be other than from_id" do
@@ -47,10 +47,10 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {to_id: ["must be other than #{accounts(:personal).id}"]},
-                   "must validate to_id is other than from_id"
+      assert_equal command, response.args.first, "must return an instance of itself"
+      assert_equal({to_id: ["must be other than #{accounts(:personal).id}"]},
+                   response.args.last,
+                   "must validate to_id is other than from_id")
     end
 
     test "amount presence" do
@@ -64,10 +64,10 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {amount: ["can't be blank"]},
-                   "must validate amount's presence"
+      assert_equal command, response.args.first, "must return an instance of itself"
+      assert_equal({amount: ["can't be blank"]},
+                   response.args.last,
+                   "must validate amount's presence")
     end
 
     test "amount must be greater than 0" do
@@ -81,10 +81,10 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {amount: ["must be greater than 0"]},
-                   "must validate that amount is greater than 0"
+      assert_equal command, response.args.first, "must return an instance of itself"
+      assert_equal({amount: ["must be greater than 0"]},
+                   response.args.last,
+                   "must validate that amount is greater than 0")
     end
 
     test "issued_at presence" do
@@ -98,10 +98,10 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {issued_at: ["can't be blank"]},
-                   "must validate issued_at's presence"
+      assert_equal command, response.args.first, "must return an instance of itself"
+      assert_equal({issued_at: ["can't be blank"]},
+                   response.args.last,
+                   "must validate issued_at's presence")
     end
 
     test "executed_at greater than or equal to issued_at when executed_at is present" do
@@ -116,10 +116,10 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {executed_at: ["must be greater than or equal to #{parameters[:issued_at].to_s}"]},
-                   "must validate that executed_at is greater than or equal to issued_at"
+      assert_equal command, response.args.first, "must return an instance of itself"
+      assert_equal({executed_at: ["must be greater than or equal to #{parameters[:issued_at].to_s}"]},
+                   response.args.last,
+                   "must validate that executed_at is greater than or equal to issued_at")
     end
   end
 
@@ -136,8 +136,8 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args,
-                   [parameters[:from_id], "Origin Account not found"],
+      assert_equal [parameters[:from_id], "Origin Account not found"],
+                   response.args,
                    "must return from_id and error message"
     end
 
@@ -153,8 +153,8 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args,
-                   [parameters[:to_id], "Destination Account not found"],
+      assert_equal [parameters[:to_id], "Destination Account not found"],
+                   response.args,
                    "must return to_id and error message"
     end
 
@@ -172,11 +172,11 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
         response = command.execute
 
         assert response.success?, "must succeed"
-        assert_equal response.args.first.from_id, parameters[:from_id], "must have the passed from_id"
-        assert_equal response.args.first.to_id, parameters[:to_id], "must have the passed to_id"
-        assert_equal response.args.first.amount, BigDecimal(parameters[:amount].to_s), "must have the passed amount"
-        assert_equal response.args.first.issued_at, parameters[:issued_at], "must have the passed issued_at"
-        assert_equal response.args.first.executed_at, parameters[:executed_at], "must have the passed executed_at"
+        assert_equal parameters[:from_id], response.args.first.from_id, "must have the passed from_id"
+        assert_equal parameters[:to_id], response.args.first.to_id, "must have the passed to_id"
+        assert_equal BigDecimal(parameters[:amount].to_s), response.args.first.amount, "must have the passed amount"
+        assert_equal parameters[:issued_at], response.args.first.issued_at, "must have the passed issued_at"
+        assert_equal parameters[:executed_at], response.args.first.executed_at, "must have the passed executed_at"
       end
     end
   end
@@ -193,8 +193,8 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args,
-                   [parameters[:from_id], "Origin Account not found"],
+      assert_equal [parameters[:from_id], "Origin Account not found"],
+                   response.args,
                    "must return from_id and error message"
     end
 
@@ -209,8 +209,8 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args,
-                   [parameters[:to_id], "Destination Account not found"],
+      assert_equal [parameters[:to_id], "Destination Account not found"],
+                   response.args,
                    "must return to_id and error message"
     end
 
@@ -227,10 +227,10 @@ class Finances::Transaction::CreateTest < ActiveSupport::TestCase
         response = command.execute
 
         assert response.success?, "must succeed"
-        assert_equal response.args.first.from_id, parameters[:from_id], "must have the passed from_id"
-        assert_equal response.args.first.to_id, parameters[:to_id], "must have the passed to_id"
-        assert_equal response.args.first.amount, BigDecimal(parameters[:amount].to_s), "must have the passed amount"
-        assert_equal response.args.first.issued_at, parameters[:issued_at], "must have the passed issued_at"
+        assert_equal parameters[:from_id], response.args.first.from_id, "must have the passed from_id"
+        assert_equal parameters[:to_id], response.args.first.to_id, "must have the passed to_id"
+        assert_equal BigDecimal(parameters[:amount].to_s), response.args.first.amount, "must have the passed amount"
+        assert_equal parameters[:issued_at], response.args.first.issued_at, "must have the passed issued_at"
         assert_nil response.args.first.executed_at, "executed_at must be nil"
       end
     end
