@@ -1,15 +1,15 @@
 require "test_helper"
 
 class Finances::Transaction::DeleteTest < ActiveSupport::TestCase
-
   class Validation < ActiveSupport::TestCase
     test "id presence" do
       command = ::Finances::Transaction::Delete.new(id: nil)
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal command, response.args.first, "must return an instance of itself"
-      assert_equal({ id: ["can't be blank"] }, response.args.last, "must validate id's presence")
+      assert_equal [command, {id: ["can't be blank"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
   end
 

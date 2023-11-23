@@ -8,10 +8,9 @@ class Finances::Transaction::GetPendingTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal command, response.args.first, "must return an instance of itself"
-      assert_equal({starting_at: ["can't be blank"]},
-                   response.args.last,
-                   "must validate starting_at's presence")
+      assert_equal [command, {starting_at: ["can't be blank"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
 
     test "ending_at presence" do
@@ -20,10 +19,9 @@ class Finances::Transaction::GetPendingTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal command, response.args.first, "must return an instance of itself"
-      assert_equal({ending_at: ["can't be blank"]},
-                   response.args.last,
-                   "must validate ending_at's presence")
+      assert_equal [command, {ending_at: ["can't be blank"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
 
     test "ending_at must be greater than or equal to starting_at" do
@@ -32,10 +30,9 @@ class Finances::Transaction::GetPendingTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal command, response.args.first, "must return an instance of itself"
-      assert_equal({ending_at: ["must be greater than or equal to #{parameters[:starting_at].to_s}"]},
-                   response.args.last,
-                   "must validate that ending_at is greater than or equal to starting_at")
+      assert_equal [command, {ending_at: ["must be greater than or equal to #{parameters[:starting_at].to_s}"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
   end
 

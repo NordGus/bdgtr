@@ -14,10 +14,9 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {id: ["can't be blank"]},
-                   "must validate id's presence"
+      assert_equal [command, {id: ["can't be blank"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
 
     test "from_id presence" do
@@ -32,10 +31,9 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {from_id: ["can't be blank"]},
-                   "must validate from_id's presence"
+      assert_equal [command, {from_id: ["can't be blank"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
 
     test "to_id presence" do
@@ -50,10 +48,9 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {to_id: ["can't be blank"]},
-                   "must validate to_id's presence"
+      assert_equal [command, {to_id: ["can't be blank"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
 
     test "to_id must be other than from_id" do
@@ -68,10 +65,9 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {to_id: ["must be other than #{accounts(:personal).id}"]},
-                   "must validate to_id is other than from_id"
+      assert_equal [command, {to_id: ["must be other than #{accounts(:personal).id}"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
 
     test "amount presence" do
@@ -86,10 +82,9 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {amount: ["can't be blank"]},
-                   "must validate amount's presence"
+      assert_equal [command, {amount: ["can't be blank"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
 
     test "amount must be greater than 0" do
@@ -104,10 +99,9 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {amount: ["must be greater than 0"]},
-                   "must validate that amount is greater than 0"
+      assert_equal [command, {amount: ["must be greater than 0"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
 
     test "issued_at presence" do
@@ -122,10 +116,9 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {issued_at: ["can't be blank"]},
-                   "must validate issued_at's presence"
+      assert_equal [command, {issued_at: ["can't be blank"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
     end
 
     test "executed_at greater than or equal to issued_at when executed_at is present" do
@@ -141,10 +134,9 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last,
-                   {executed_at: ["must be greater than or equal to #{parameters[:issued_at].to_s}"]},
-                   "must validate that executed_at is greater than or equal to issued_at"
+      assert_equal [command, {executed_at: ["must be greater than or equal to #{parameters[:issued_at].to_s}"]}],
+                    response.args,
+                    "must return itself and the expected errors hash"
     end
   end
 
@@ -214,14 +206,14 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       }
       command = ::Finances::Transaction::Update.new(**parameters)
       response = command.execute
+      output = response.args
+                       .first
+                       .attributes
+                       .deep_symbolize_keys
+                       .slice(:id, :from_id, :to_id, :amount, :issued_at, :executed_at)
 
       assert response.success?, "must succeed"
-      assert_equal response.args.first.id, parameters[:id], "must update the right Transaction"
-      assert_equal response.args.first.from_id, parameters[:from_id], "must have the passed from_id"
-      assert_equal response.args.first.to_id, parameters[:to_id], "must have the passed to_id"
-      assert_equal response.args.first.amount, BigDecimal(parameters[:amount].to_s), "must have the passed amount"
-      assert_equal response.args.first.issued_at, parameters[:issued_at], "must have the passed issued_at"
-      assert_equal response.args.first.executed_at, parameters[:executed_at], "must have the passed executed_at"
+      assert_equal parameters, output, "must update the Transaction with given parameters"
     end
   end
 
@@ -238,8 +230,8 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args,
-                   [parameters[:id], "Transaction not found"],
+      assert_equal [parameters[:id], "Transaction not found"],
+                   response.args,
                    "must return id and error message"
     end
 
@@ -255,8 +247,8 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args,
-                   [parameters[:from_id], "Origin Account not found"],
+      assert_equal [parameters[:from_id], "Origin Account not found"],
+                   response.args,
                    "must return from_id and error message"
     end
 
@@ -272,8 +264,8 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args,
-                   [parameters[:to_id], "Destination Account not found"],
+      assert_equal [parameters[:to_id], "Destination Account not found"],
+                   response.args,
                    "must return to_id and error message"
     end
 
@@ -287,13 +279,14 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
       }
       command = ::Finances::Transaction::Update.new(**parameters)
       response = command.execute
+      output = response.args
+                       .first
+                       .attributes
+                       .deep_symbolize_keys
+                       .slice(:id, :from_id, :to_id, :amount, :issued_at)
 
       assert response.success?, "must succeed"
-      assert_equal response.args.first.id, parameters[:id], "must update the right Transaction"
-      assert_equal response.args.first.from_id, parameters[:from_id], "must have the passed from_id"
-      assert_equal response.args.first.to_id, parameters[:to_id], "must have the passed to_id"
-      assert_equal response.args.first.amount, BigDecimal(parameters[:amount].to_s), "must have the passed amount"
-      assert_equal response.args.first.issued_at, parameters[:issued_at], "must have the passed issued_at"
+      assert_equal parameters, output, "must update the Transaction with given parameters"
       assert_nil response.args.first.executed_at, "executed_at must be nil"
     end
   end
