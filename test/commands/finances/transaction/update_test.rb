@@ -22,7 +22,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "from_id presence" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: nil,
         to_id: accounts(:expense).id,
         amount: 420.69,
@@ -40,7 +40,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "to_id presence" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: nil,
         amount: 420.69,
@@ -58,7 +58,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "to_id must be other than from_id" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: accounts(:personal).id,
         amount: 420.69,
@@ -76,7 +76,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "amount presence" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: accounts(:expense).id,
         amount: nil,
@@ -94,7 +94,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "amount must be greater than 0" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: accounts(:expense).id,
         amount: -420.69,
@@ -112,7 +112,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "issued_at presence" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: accounts(:expense).id,
         amount: 420.69,
@@ -130,7 +130,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "executed_at greater than or equal to issued_at when executed_at is present" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: accounts(:expense).id,
         amount: 420.69,
@@ -169,7 +169,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "fails when origin account doesn't exists" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: -42,
         to_id: accounts(:expense).id,
         amount: 420.69,
@@ -187,7 +187,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "fails when destination account doesn't exists" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: -42,
         amount: 420.69,
@@ -205,7 +205,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "succeeds" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: accounts(:expense).id,
         amount: 420.69,
@@ -245,7 +245,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "fails when origin account doesn't exists" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: -42,
         to_id: accounts(:expense).id,
         amount: 420.69,
@@ -262,7 +262,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "fails when destination account doesn't exists" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: -42,
         amount: 420.69,
@@ -279,7 +279,7 @@ class Finances::Transaction::UpdateTest < ActiveSupport::TestCase
 
     test "succeeds" do
       parameters = {
-        id: transactions(:personal_expense).id,
+        id: transactions(:personal_expense_0).id,
         from_id: accounts(:personal).id,
         to_id: accounts(:expense).id,
         amount: 420.69,

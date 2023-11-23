@@ -1,6 +1,6 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-personal_expense:
+personal_expense_0:
   from: personal
   to: expense
   amount: 9.99

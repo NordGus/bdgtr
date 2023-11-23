@@ -2,14 +2,14 @@ require "test_helper"
 
 class TransactionTest < ActiveSupport::TestCase
   test "should have an origin Account" do
-    transaction = transactions(:personal_expense)
+    transaction = transactions(:personal_expense_0)
     expected_origin_account = accounts(:personal)
 
     assert_equal transaction.from.id, expected_origin_account.id, "transaction doesn't come from expected transaction"
   end
 
   test "should have a destination Account" do
-    transaction = transactions(:personal_expense)
+    transaction = transactions(:personal_expense_0)
     expected_destination_account = accounts(:expense)
 
     assert_equal transaction.to.id, expected_destination_account.id, "transaction doesn't go tp expected transaction"
