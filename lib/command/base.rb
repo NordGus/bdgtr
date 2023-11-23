@@ -11,5 +11,15 @@ module Command
       return Railway::Response.success(self) if super
       Railway::Response.failure(self, self.errors.messages)
     end
+
+    protected
+
+    class ScopeContainer
+      attr_accessor :scope
+
+      def initialize(scope)
+        self.scope = scope
+      end
+    end
   end
 end

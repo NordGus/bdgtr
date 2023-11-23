@@ -5,3 +5,6 @@ personal:
 
 expense:
   name: Expense Pseudo Account
+
+additional:
+  name: Additional Pseudo Account
