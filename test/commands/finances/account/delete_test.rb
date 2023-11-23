@@ -1,22 +1,26 @@
 require "test_helper"
 
 class Finances::Account::DeleteTest < ActiveSupport::TestCase
-  test "validates the presence of the id parameter" do
-    command = ::Finances::Account::Delete.new(id: nil)
-    response = command.execute
+  class Validation < ActiveSupport::TestCase
+    test "validates the presence of the id parameter" do
+      command = ::Finances::Account::Delete.new(id: nil)
+      response = command.execute
 
-    assert_not response.success?, "must not succeed"
-    assert_equal response.args.first, command, "must return an instance of itself"
-    assert_equal response.args.last[:id], ["can't be blank"], "must validate id's presence"
+      assert_not response.success?, "must not succeed"
+      assert_equal [command, {id: ["can't be blank"]}],
+                   response.args,
+                   "must return itself and the expected errors hash"
+    end
   end
 
   test "fails when id doesn't belong to any Account" do
-    command = ::Finances::Account::Delete.new(id: 0)
+    bad_id = -42
+    command = ::Finances::Account::Delete.new(id: bad_id)
     response = command.execute
 
     assert_not response.success?, "must not succeed"
-    assert_equal response.args,
-                 [0, "Account not found"],
+    assert_equal [bad_id, "Account not found"],
+                 response.args,
                  "must failed because there's no Account with the given id"
   end
 
@@ -28,7 +32,7 @@ class Finances::Account::DeleteTest < ActiveSupport::TestCase
       response = command.execute
 
       assert response.success?, "must succeed"
-      assert_equal response.args.first.id, account.id, "must delete the correct Account"
+      assert_equal account.id, response.args.first.id, "must delete the correct Account"
     end
   end
 end
