@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # Finances::Transaction::Update contains the logic to update an existing Transaction in the system.
-# Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea
-# is to use this commands to eventually migrate the application to a different language
-# or framework.
+#
+# Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea is to use this commands to
+# eventually migrate the application to a different language or framework.
 class Finances::Transaction::Update < Command::Base
   attribute :id, :integer
   attribute :from_id, :integer
