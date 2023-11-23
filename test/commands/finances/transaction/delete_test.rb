@@ -8,8 +8,8 @@ class Finances::Transaction::DeleteTest < ActiveSupport::TestCase
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal response.args.first, command, "must return an instance of itself"
-      assert_equal response.args.last, { id: ["can't be blank"] }, "must validate id's presence"
+      assert_equal command, response.args.first, "must return an instance of itself"
+      assert_equal({ id: ["can't be blank"] }, response.args.last, "must validate id's presence")
     end
   end
 
@@ -19,8 +19,8 @@ class Finances::Transaction::DeleteTest < ActiveSupport::TestCase
     response = command.execute
 
     assert_not response.success?, "must not succeed"
-    assert_equal response.args,
-                 [bad_id, "Transaction not found"],
+    assert_equal [bad_id, "Transaction not found"],
+                 response.args,
                  "must failed because there's no Transaction with the given id"
   end
 
@@ -38,7 +38,7 @@ class Finances::Transaction::DeleteTest < ActiveSupport::TestCase
       response = command.execute
 
       assert response.success?, "must succeed"
-      assert_equal response.args.first.id, transaction.id, "must delete the correct Transaction"
+      assert_equal transaction.id, response.args.first.id, "must delete the correct Transaction"
     end
   end
 end
