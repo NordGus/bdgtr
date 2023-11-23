@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-# Balance::Transaction::GetPending contains to retrieve all pending transactions in the system; a pending transaction
-# is a transaction that doesn't have an executed_at date.
+# Balance::Transaction::GetAllPendingBetween contains to retrieve all pending transactions in the system; a pending
+# transaction is a transaction that doesn't have an executed_at date.
 #
 # Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea is to use this commands to
 # eventually migrate the application to a different language or framework.
-class Balance::Transaction::GetPending < Command::Base
+class Balance::Transaction::GetAllPendingBetween < Command::Base
   attribute :for_id, :integer
   attribute :starting_at, :date
   attribute :ending_at, :date

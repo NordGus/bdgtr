@@ -1,10 +1,10 @@
 require "test_helper"
 
-class Balance::Transaction::GetPendingTest < ActiveSupport::TestCase
+class Balance::Transaction::GetAllPendingBetweenTest < ActiveSupport::TestCase
   class Validation < ActiveSupport::TestCase
     test "starting_at presence" do
       parameters = { starting_at: nil, ending_at: Date.tomorrow }
-      command = ::Balance::Transaction::GetPending.new(**parameters)
+      command = ::Balance::Transaction::GetAllPendingBetween.new(**parameters)
       response = command.execute
 
       assert_not response.success?, "must not succeed"
@@ -15,7 +15,7 @@ class Balance::Transaction::GetPendingTest < ActiveSupport::TestCase
 
     test "ending_at presence" do
       parameters = { starting_at: Date.today, ending_at: nil }
-      command = ::Balance::Transaction::GetPending.new(**parameters)
+      command = ::Balance::Transaction::GetAllPendingBetween.new(**parameters)
       response = command.execute
 
       assert_not response.success?, "must not succeed"
@@ -26,7 +26,7 @@ class Balance::Transaction::GetPendingTest < ActiveSupport::TestCase
 
     test "ending_at must be greater than or equal to starting_at" do
       parameters = { starting_at: Date.today, ending_at: Date.yesterday }
-      command = ::Balance::Transaction::GetPending.new(**parameters)
+      command = ::Balance::Transaction::GetAllPendingBetween.new(**parameters)
       response = command.execute
 
       assert_not response.success?, "must not succeed"
@@ -39,7 +39,7 @@ class Balance::Transaction::GetPendingTest < ActiveSupport::TestCase
   class WithoutForId < ActiveSupport::TestCase
     test "returns the transactions with issued_at between starting_at and ending_at" do
       parameters = { starting_at: Date.new(2023, 11, 1), ending_at: Date.new(2023, 12, 1) }
-      command = ::Balance::Transaction::GetPending.new(**parameters)
+      command = ::Balance::Transaction::GetAllPendingBetween.new(**parameters)
       response = command.execute
 
       assert response.success?, "must succeed"
@@ -54,7 +54,7 @@ class Balance::Transaction::GetPendingTest < ActiveSupport::TestCase
         starting_at: Date.new(2023, 11, 1),
         ending_at: Date.new(2023, 12, 1)
       }
-      command = ::Balance::Transaction::GetPending.new(**parameters)
+      command = ::Balance::Transaction::GetAllPendingBetween.new(**parameters)
       response = command.execute
 
       assert_not response.success?, "must not succeed"
@@ -69,7 +69,7 @@ class Balance::Transaction::GetPendingTest < ActiveSupport::TestCase
         starting_at: Date.new(2023, 11, 1),
         ending_at: Date.new(2023, 12, 1)
       }
-      command = ::Balance::Transaction::GetPending.new(**parameters)
+      command = ::Balance::Transaction::GetAllPendingBetween.new(**parameters)
       response = command.execute
 
       assert response.success?, "must succeed"
