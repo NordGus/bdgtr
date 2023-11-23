@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # Finances::Account::Delete contains the logic to delete an existing Account from the system.
-# Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea
-# is to use this commands to eventually migrate the application to a different language
-# or framework.
+#
+# Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea is to use this commands to
+# eventually migrate the application to a different language or framework.
 class Finances::Account::Delete < Command::Base
   attribute :id, :integer
 
