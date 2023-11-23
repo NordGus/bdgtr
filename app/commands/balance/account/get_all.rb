@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# Balance::Account::GetAll contains to retrieve all pending transactions in the system; a pending transaction
-# is a transaction that doesn't have an executed_at date.
+# Balance::Account::GetAll contains to retrieve all accounts in the system.
 #
 # Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea is to use this commands to
 # eventually migrate the application to a different language or framework.
