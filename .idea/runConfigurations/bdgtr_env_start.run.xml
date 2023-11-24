@@ -30,6 +30,7 @@
     <method v="2">
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="bdgtr:docker:start" run_configuration_type="docker-deploy" />
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="bdgtr:db:prepare" run_configuration_type="RakeRunConfigurationType" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="bdgtr:dev:serve" run_configuration_type="CompoundRunConfigurationType" />
     </method>
   </configuration>
 </component>
