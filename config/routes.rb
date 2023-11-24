@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "bdgtr#root"
 
+  get :finances, controller: :finances, action: :show, as: :finances
+
   namespace :finances do
-    get "/" => FinancesController, action: :show
   end
 end
