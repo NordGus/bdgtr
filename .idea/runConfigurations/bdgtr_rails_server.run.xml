@@ -11,6 +11,8 @@
       <env name="BDGTR_DATABASE_HOST" value="db" />
       <env name="BDGTR_DATABASE_PASSWORD" value="localdev" />
       <env name="BDGTR_DATABASE_USER" value="bdgtr" />
+      <env name="RUBY_DEBUG_OPEN" value="true" />
+      <env name="RAILS_ENV" value="development" />
     </envs>
     <EXTENSION ID="BundlerRunConfigurationExtension" BUNDLE_MODE="AUTO" bundleExecEnabled="true" />
     <EXTENSION ID="RubyCoverageRunConfigurationExtension" track_test_folders="true" runner="rcov" ENABLE_BRANCH_COVERAGE="true" ENABLE_FORKED_COVERAGE="true">
