@@ -1,0 +1,38 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+personal_expense_0:
+  from: personal
+  to: expense
+  amount: 9.99
+  issued_at: 2023-10-20
+  executed_at: 2023-11-20
+
+personal_expense_1:
+  from: expense
+  to: personal
+  amount: 69.99
+  issued_at: 2023-11-10
+
+personal_expense_2:
+  from: expense
+  to: additional
+  amount: 99.99
+  issued_at: 2023-11-20
+
+personal_expense_3:
+  from: expense
+  to: personal
+  amount: 99.99
+  issued_at: 2023-12-10
+
+personal_refund_0:
+  from: expense
+  to: personal
+  amount: 19.99
+  issued_at: 2023-12-1
+
+personal_refund_1:
+  from: expense
+  to: personal
+  amount: 9.99
+  issued_at: 2023-12-20
