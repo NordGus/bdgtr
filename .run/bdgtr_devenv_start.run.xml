@@ -11,6 +11,9 @@
         <option name="sourceFilePath" value="docker-compose.yml" />
       </settings>
     </deployment>
-    <method v="2" />
+    <method v="2">
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="bdgtr:db:prepare" run_configuration_type="RakeRunConfigurationType" />
+      <option name="RunConfigurationTask" enabled="true" run_configuration_name="bdgtr:db:migrate" run_configuration_type="RakeRunConfigurationType" />
+    </method>
   </configuration>
 </component>
