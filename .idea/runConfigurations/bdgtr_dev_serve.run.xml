@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="bdgtr:dev:serve" type="CompoundRunConfigurationType">
-    <toRun name="bdgtr:npm:build" type="js.build_tools.npm" />
-    <toRun name="bdgtr:npm:build:css" type="js.build_tools.npm" />
-    <toRun name="bdgtr:rails:server" type="RailsRunConfigurationType" />
-    <method v="2" />
-  </configuration>
-</component>
