@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="bdgtr:env:start" type="CompoundRunConfigurationType">
+    <toRun name="bdgtr:docker:start" type="docker-deploy" />
+    <toRun name="bdgtr:db:migrate" type="RakeRunConfigurationType" />
+    <toRun name="bdgtr:db:prepare" type="RakeRunConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>
