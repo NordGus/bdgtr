@@ -12,13 +12,13 @@
     <p id="account-name"><%= account.name if account.present? %></p>
   </div>
 
-  <div id="accounts" class="bg-amber-800 overflow-auto">
+  <div id="accounts" class="bg-amber-800 overflow-auto <%= "hidden" if account.present? %>">
     <% accounts.each do |account| %>
       <%= render "finances/account/preview", account: account %>
     <% end %>
   </div>
 
-  <div id="account" class="hidden">
+  <div id="account" class="<%= "hidden" if account.nil? %>">
     <% if account.present? %>
       <%= render "finances/account/detail", account: account %>
     <% end %>
