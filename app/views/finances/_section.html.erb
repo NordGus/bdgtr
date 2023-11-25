@@ -1,0 +1,28 @@
+<%# locals: (accounts: [], account: nil) -%>
+<div
+  id="finances"
+  class="
+    my-0 p-3 flex-1 w-full max-w-[420px] md:max-h-[95vh]
+    md:rounded-lg bg-neutral-100 dark:bg-neutral-800
+    grid grid-rows-applet
+  "
+>
+  <div id="title" class="pb-3 pt-5">
+    <h1 class="text-3xl">Finances</h1>
+    <p id="account-name"><%= account.name if account.present? %></p>
+  </div>
+
+  <div id="accounts" class="bg-amber-800 overflow-auto">
+    <% accounts.each do |account| %>
+      <%= render "finances/account/preview", account: account %>
+    <% end %>
+  </div>
+
+  <div id="account" class="hidden">
+    <% if account.present? %>
+      <%= render "finances/account/detail", account: account %>
+    <% end %>
+  </div>
+
+  <div id="menu" class="mt-3">Here goes the menu</div>
+</div>
