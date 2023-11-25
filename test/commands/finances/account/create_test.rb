@@ -2,12 +2,23 @@ require "test_helper"
 
 class Finances::Account::CreateTest < ActiveSupport::TestCase
   class Validation < ActiveSupport::TestCase
-    test "validates the presence of the name parameter" do
-      command = ::Finances::Account::Create.new(name: "")
+    test "name presence" do
+      command = ::Finances::Account::Create.new(name: nil)
       response = command.execute
 
       assert_not response.success?, "must not succeed"
-      assert_equal [command, {name: ["can't be blank"]}],
+      assert_equal command, response.args.first, "must return itself"
+      assert_not_empty response.args.last[:name], "must return the expected errors"
+      assert_includes response.args.last[:name], "can't be blank", "must return the expected error"
+    end
+
+    test "name length" do
+      command = ::Finances::Account::Create.new(name: "one")
+      expected_length = ::Finances::Account::Create::NAME_MINIMUM_LENGTH
+      response = command.execute
+
+      assert_not response.success?, "must not succeed"
+      assert_equal [command, {name: ["is too short (minimum is #{expected_length} characters)"]}],
                    response.args,
                    "must return itself and the expected errors hash"
     end
@@ -18,7 +29,7 @@ class Finances::Account::CreateTest < ActiveSupport::TestCase
     response = command.execute
 
     assert_not response.success?, "must not succeed"
-    assert_equal [accounts(:personal).name, "Account already exists"],
+    assert_equal [accounts(:personal).name, ::Finances::Account::Create::NAME_NOT_UNIQUE_ERROR_MESSAGE],
                  response.args,
                  "must failed because there's an account with the same name in the system"
   end
