@@ -35,9 +35,7 @@ class Finances::Account::CreateTest < ActiveSupport::TestCase
   end
 
   test "succeeds to create a new Account" do
-    parameters = {
-      name: "On the bounce"
-    }
+    parameters = { name: "On the bounce" }
     command = ::Finances::Account::Create.new(**parameters)
 
     assert_difference "Account.count", 1, "must create an Account" do
