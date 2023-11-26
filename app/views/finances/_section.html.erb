@@ -7,8 +7,16 @@
     grid grid-rows-applet
   "
 >
-  <div id="title" class="pb-3 pt-5">
-    <h1 class="text-3xl">Finances</h1>
+  <div id="title" class="pb-3 pt-5 flex justify-between items-center">
+    <h1 class="text-3xl">
+      <% if account.present? %>
+        <a id="return_to_accounts" href="<%= finances_accounts_path %>" class="py-2 px-3 rounded-lg"><</a>
+      <% end %>
+      <span>Finances</span>
+    </h1>
+    <% unless account.present? %>
+      <a id="add_account" href="<%= new_finances_account_path %>" class="py-2 px-3 rounded-lg bg-green-600">Add</a>
+    <% end %>
   </div>
 
   <div id="accounts" class="overflow-auto <%= "hidden" if account.present? %>">
@@ -17,7 +25,7 @@
     <% end %>
   </div>
 
-  <div id="account" class="<%= "hidden" if account.nil? %>">
+  <div id="account" class="overflow-auto <%= "hidden" if account.nil? %>">
     <% if account.present? %>
       <%= render "finances/accounts/detail", account: account %>
     <% end %>
