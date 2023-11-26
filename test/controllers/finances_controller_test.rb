@@ -19,28 +19,34 @@ class FinancesControllerTest < ActionDispatch::IntegrationTest
         get finances_path
 
         assert_select "#title", 1 do
-          assert_select "h1", 1, "Finances"
-          assert_select "p#account_name", 1, ""
+          assert_select "h1", 1
+          assert_select "h1", "Finances"
+          assert_select "a:match('id', ?)", "add_account", 1
+          assert_select "a#add_account", "Add"
         end
       end
 
       test "contains a single element with id accounts" do
         get finances_path
 
-        assert_select "#accounts", 1, ""
+        assert_select "#accounts", 1
+        assert_select "#accounts", ""
       end
 
       test "contains a single hidden element with id account" do
         get finances_path
 
-        assert_select "#account", 1, ""
+        assert_select "#account", 1
+        assert_select "#account", ""
         assert_select "#account.hidden", 1, ""
+        assert_select "#account.hidden", ""
       end
 
       test "contains a single element with id menu" do
         get finances_path
 
-        assert_select "#menu", 1, "Here goes the menu"
+        assert_select "#menu", 1
+        assert_select "#menu", "Here goes the menu"
       end
     end
   end
