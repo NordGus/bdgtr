@@ -5,6 +5,8 @@
 # Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea is to use this commands to
 # eventually migrate the application to a different language or framework.
 class Finances::Account::Delete < Command::Base
+  NOT_FOUND_ERROR_MESSAGE = "Account not found".freeze
+
   attribute :id, :integer
 
   validates :id, presence: true
@@ -27,7 +29,7 @@ class Finances::Account::Delete < Command::Base
     account = Account.find_by(id: self.id)
 
     return Railway::Response.success(account) if account
-    Railway::Response.failure(self.id, "Account not found")
+    Railway::Response.failure(self.id, NOT_FOUND_ERROR_MESSAGE)
   end
 
   def delete_account(account)

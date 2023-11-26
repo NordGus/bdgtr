@@ -19,7 +19,7 @@ class Finances::Account::DeleteTest < ActiveSupport::TestCase
     response = command.execute
 
     assert_not response.success?, "must not succeed"
-    assert_equal [bad_id, "Account not found"],
+    assert_equal [bad_id, ::Finances::Account::Delete::NOT_FOUND_ERROR_MESSAGE],
                  response.args,
                  "must failed because there's no Account with the given id"
   end
