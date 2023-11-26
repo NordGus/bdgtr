@@ -5,11 +5,16 @@
 # Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea is to use this commands to
 # eventually migrate the application to a different language or framework.
 class Finances::Account::Update < Command::Base
+  NAME_MINIMUM_LENGTH = 5.freeze
+
+  NOT_FOUND_ERROR_MESSAGE = "Account not found".freeze
+  NAME_NOT_UNIQUE_ERROR_MESSAGE = "Account already exists".freeze
+
   attribute :id, :integer
   attribute :name, :string
 
   validates :id, presence: true
-  validates :name, presence: true
+  validates :name, presence: true, length: { minimum: NAME_MINIMUM_LENGTH }
 
   def initialize(id:, name:)
     super()
@@ -31,11 +36,14 @@ class Finances::Account::Update < Command::Base
     account = Account.find_by(id: self.id)
 
     return Railway::Response.success(account) if account
-    Railway::Response.failure(self.id, "Account not found")
+    Railway::Response.failure(self.id, NOT_FOUND_ERROR_MESSAGE)
   end
 
   def check_if_already_exists(account)
-    return Railway::Response.failure(self.name, "Account already exists") if Account.find_by_name(self.name)
+    duplicate_account = Account.find_by_name(self.name)
+
+    return Railway::Response.success(account) unless duplicate_account
+    return Railway::Response.failure(self.name, NAME_NOT_UNIQUE_ERROR_MESSAGE) unless duplicate_account.id == account.id
     Railway::Response.success(account)
   end
 
