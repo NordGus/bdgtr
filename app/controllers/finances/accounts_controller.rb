@@ -98,10 +98,23 @@ class Finances::AccountsController < FinancesController
 
   # DELETE /finances/accounts/1
   def destroy
-    @account.destroy!
+    @account = ::Finances::AccountForm.new(
+      id: @account.id,
+      name: @account.name,
+      url: finances_account_path(@account),
+      http_method: :patch
+    )
+    command = ::Finances::Account::Delete.new(id: @account.id)
+    command_response = command.execute
 
     respond_to do |format|
-      format.html { redirect_to finances_accounts_url, notice: "Account was successfully destroyed." }
+      if command_response.success?
+        format.html { redirect_to finances_accounts_url, notice: "Account was successfully destroyed." }
+      else
+        @account.errors.add(:id, :invalid, message: "couldn't be deleted")
+
+        format.html { render :show, status: :unprocessable_entity }
+      end
     end
   end
 
