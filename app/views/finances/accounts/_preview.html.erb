@@ -1,4 +1,8 @@
 <%# locals: (account:) -%>
-<div id="<%= dom_id account %>">
+<a
+  id="<%= dom_id account %>"
+  class="block p-3 mb-3 rounded-lg bg-neutral-200 dark:bg-neutral-700 drop-shadow-md"
+  href="<%= finances_account_path(account) %>"
+>
   <h2 class="text-lg"><%= account.name %></h2>
-</div>
+</a>
