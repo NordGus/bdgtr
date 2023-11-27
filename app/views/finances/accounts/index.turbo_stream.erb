@@ -1,0 +1,5 @@
+<%= turbo_stream.append "accounts" do %>
+  <% @accounts.each do |account| %>
+    <%= render partial: "finances/accounts/preview", locals: { account: account } %>
+  <% end %>
+<% end %>

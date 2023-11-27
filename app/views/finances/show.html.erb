@@ -1,4 +1,48 @@
-<%#
-  The section partial contains the base section view. This is done to render the entire view when the client requests it
-%>
-<%= render "section" %>
+<%# The section partial contains the base section view. This is done to render the entire view when the client requests it %>
+<div
+  id="finances"
+  class="
+    my-0 p-3 flex-1 w-full max-w-[420px] md:max-h-[95vh]
+    md:rounded-lg bg-neutral-100 dark:bg-neutral-800
+    grid grid-rows-applet
+  "
+  data-controller="finances"
+>
+  <div id="title" class="pb-3 pt-5 flex justify-between items-center">
+    <a
+      data-finances-target="back"
+      class="py-2 px-3 rounded-lg hidden"
+      data-action="click->finances#hideAccount"
+    >
+      <
+    </a>
+    <h1 class="text-3xl">Finances</h1>
+    <a
+      data-finances-target="new"
+      href="<%= new_finances_account_path(format: :turbo_stream) %>"
+      class="py-2 px-3 rounded-lg bg-green-600"
+      data-action="click->finances#displayAccount"
+      turbo="true"
+    >
+      Add
+    </a>
+    <a
+      data-finances-target="save"
+      class="py-2 px-3 rounded-lg bg-green-600 hidden"
+    >
+      Save
+    </a>
+  </div>
+
+  <%=
+    turbo_frame_tag :accounts,
+                    src: finances_accounts_path(format: :turbo_stream),
+                    loading: "lazy",
+                    class: "overflow-auto",
+                    data: { finances_target: "accounts" }
+  %>
+
+  <%= turbo_frame_tag :account, class: "overflow-auto hidden", data: { finances_target: "account" } %>
+
+  <div id="menu" class="mt-3">Here goes the menu</div>
+</div>

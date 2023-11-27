@@ -2,7 +2,8 @@
 <a
   id="<%= dom_id account %>"
   class="block p-3 mb-3 rounded-lg bg-neutral-200 dark:bg-neutral-700 drop-shadow-md"
-  href="<%= finances_account_path(account) %>"
+  href="<%= finances_account_path(account, format: :turbo_stream) %>"
+  data-action="click->finances#displayAccount"
 >
   <h2 class="text-lg"><%= account.name %></h2>
 </a>
