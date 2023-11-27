@@ -26,5 +26,9 @@ export default class extends Controller {
     this.newTarget.classList.toggle(HIDDEN_CSS_CLASS, false)
   }
 
+  saveAccount() {
+    this.accountTarget.querySelector(`form input[type="submit"]`).click()
+  }
+
   disconnect() {}
 }

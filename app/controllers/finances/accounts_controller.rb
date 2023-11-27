@@ -1,5 +1,4 @@
 class Finances::AccountsController < FinancesController
-  # TODO: Implement turbo_stream format in all actions
   before_action :set_account, only: %i[ show update destroy ]
 
   # GET /finances/accounts
@@ -46,7 +45,7 @@ class Finances::AccountsController < FinancesController
             .merge(url: finances_account_path(record), http_method: :patch)
       )
 
-      flash[:notice] = "Account was successfully created."
+      render :show, status: :ok, notice: "Account was successfully created."
     else
       if command_response.args.last == Finances::Account::Create::NAME_NOT_UNIQUE_ERROR_MESSAGE
         @account.errors.add(:name, :uniqueness, message: "already exists")
@@ -77,7 +76,7 @@ class Finances::AccountsController < FinancesController
             .merge(url: finances_account_url(record), http_method: :patch)
       )
 
-      flash[:notice] = "Account was successfully updated."
+      render :show, status: :ok, notice: "Account was successfully updated."
     else
       if command_response.args.last == Finances::Account::Update::NOT_FOUND_ERROR_MESSAGE
         @account.errors.add(:id, :invalid, message: "not found")
