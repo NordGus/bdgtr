@@ -100,7 +100,7 @@ class Finances::AccountsController < FinancesController
     unless command_response.success?
       @account.errors.add(:id, :invalid, message: "couldn't be deleted")
 
-      render :show, status: :unprocessable_entity
+      render :show, status: :unprocessable_entity, error: "Account couldn't be deleted"
     end
   end
 

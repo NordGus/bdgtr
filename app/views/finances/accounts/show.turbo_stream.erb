@@ -1,3 +1,11 @@
 <%= turbo_stream.update :account do %>
   <%= render partial: "finances/accounts/detail", locals: { account: @account } %>
 <% end %>
+
+<% if flash[:error].present? %>
+  <%= turbo_stream.append :toasts do %>
+    <%= render "toasts/error" do %>
+      <p><%= flash[:error] %></p>
+    <% end %>
+  <% end %>
+<% end %>
