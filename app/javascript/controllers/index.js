@@ -5,4 +5,7 @@
 import { application } from "./application"
 
 import FinancesController from "./finances/finances_controller"
+import AccountSavedController from "./finances/account_saved_controller"
+
 application.register("finances", FinancesController)
+application.register("finances--account-saved", AccountSavedController)

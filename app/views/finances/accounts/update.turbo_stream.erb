@@ -1,0 +1,5 @@
+<%= turbo_stream.update :account do %>
+  <div class="hidden" data-controller="finances--account-saved"></div>
+
+  <%= render partial: "finances/accounts/detail", locals: { account: @account } %>
+<% end %>
