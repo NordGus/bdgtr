@@ -1,28 +1,29 @@
 import { Controller } from "@hotwired/stimulus"
 
+const HIDDEN_CSS_CLASS = "hidden"
+
 // Connects to data-controller="finances"
 export default class extends Controller {
   static targets = [ "back", "new", "save", "accounts", "account" ]
-  static classes = [ "hidden" ]
 
   connect() {}
 
   displayAccount() {
-    this.accountsTarget.classList.toggle(this.hiddenClass, true)
-    this.newTarget.classList.toggle(this.hiddenClass, true)
+    this.accountsTarget.classList.toggle(HIDDEN_CSS_CLASS, true)
+    this.newTarget.classList.toggle(HIDDEN_CSS_CLASS, true)
 
-    this.accountTarget.classList.toggle(this.hiddenClass, false)
-    this.backTarget.classList.toggle(this.hiddenClass, false)
-    this.saveTarget.classList.toggle(this.hiddenClass, false)
+    this.accountTarget.classList.toggle(HIDDEN_CSS_CLASS, false)
+    this.backTarget.classList.toggle(HIDDEN_CSS_CLASS, false)
+    this.saveTarget.classList.toggle(HIDDEN_CSS_CLASS, false)
   }
 
   hideAccount() {
-    this.accountTarget.classList.toggle(this.hiddenClass, true)
-    this.backTarget.classList.toggle(this.hiddenClass, true)
-    this.saveTarget.classList.toggle(this.hiddenClass, true)
+    this.accountTarget.classList.toggle(HIDDEN_CSS_CLASS, true)
+    this.backTarget.classList.toggle(HIDDEN_CSS_CLASS, true)
+    this.saveTarget.classList.toggle(HIDDEN_CSS_CLASS, true)
 
-    this.accountsTarget.classList.toggle(this.hiddenClass, false)
-    this.newTarget.classList.toggle(this.hiddenClass, false)
+    this.accountsTarget.classList.toggle(HIDDEN_CSS_CLASS, false)
+    this.newTarget.classList.toggle(HIDDEN_CSS_CLASS, false)
   }
 
   disconnect() {}
