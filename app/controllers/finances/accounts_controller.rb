@@ -36,16 +36,14 @@ class Finances::AccountsController < FinancesController
     command_response = command.execute
 
     if @account.valid? && command_response.success?
-      record = command_response.args.first
+      @record = command_response.args.first
       @account = ::Finances::AccountForm.new(
-        **record
+        **@record
             .attributes
             .deep_symbolize_keys
             .slice(:id, :name)
-            .merge(url: finances_account_path(record), http_method: :patch)
+            .merge(url: finances_account_path(@record), http_method: :patch)
       )
-
-      flash[:notice] = "Account was successfully created."
     else
       if command_response.args.last == Finances::Account::Create::NAME_NOT_UNIQUE_ERROR_MESSAGE
         @account.errors.add(:name, :uniqueness, message: "already exists")
@@ -67,16 +65,14 @@ class Finances::AccountsController < FinancesController
     command_response = command.execute
 
     if @account.valid? && command_response.success?
-      record = command_response.args.first
+      @record = command_response.args.first
       @account = ::Finances::AccountForm.new(
-        **record
+        **@record
             .attributes
             .deep_symbolize_keys
             .slice(:id, :name)
-            .merge(url: finances_account_url(record), http_method: :patch)
+            .merge(url: finances_account_url(@record), http_method: :patch)
       )
-
-      flash[:notice] = "Account was successfully updated."
     else
       if command_response.args.last == Finances::Account::Update::NOT_FOUND_ERROR_MESSAGE
         @account.errors.add(:id, :invalid, message: "not found")

@@ -17,7 +17,7 @@ class Finances::Account::GetAll < Command::Base
   private
 
   def build_scope
-    scope = Account.order(name: :desc)
+    scope = Account.order(created_at: :desc)
 
     Railway::Response.success(ScopeContainer.new(scope))
   end

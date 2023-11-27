@@ -3,13 +3,15 @@
 <div
   id="finances"
   class="
-    my-0 p-3 flex-1 w-full max-w-[420px] md:max-h-[95vh]
-    md:rounded-lg bg-neutral-100 dark:bg-neutral-800
+    flex-1 w-full max-w-[420px] md:max-h-[95vh]
+    my-0 p-3 relative md:rounded-lg
+    bg-neutral-100 dark:bg-neutral-800
     grid grid-rows-applet
   "
   data-controller="finances"
   data-action="finances--account-saved:success->finances#hideAccount"
 >
+  <div id="toasts" class="absolute flex flex-col justify-center items-center gap-2 z-50 bottom-[5rem] w-full px-3"></div>
   <div id="header" class="pb-3 pt-5 flex justify-between items-center">
     <div id="title" class="flex justify-end items-center">
       <a
