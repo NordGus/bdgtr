@@ -11,6 +11,6 @@ Rails.application.routes.draw do
   get :finances, controller: :finances, action: :show, as: :finances
 
   namespace :finances do
-    resources :accounts, only: %i[index show new create update destroy]
+    resources :accounts, only: %i[index show new create update destroy], defaults: { format: :turbo_stream }
   end
 end

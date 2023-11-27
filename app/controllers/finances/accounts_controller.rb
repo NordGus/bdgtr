@@ -36,25 +36,23 @@ class Finances::AccountsController < FinancesController
     command = ::Finances::Account::Create.new(name: @account.name)
     command_response = command.execute
 
-    respond_to do |format|
-      if @account.valid? && command_response.success?
-        record = command_response.args.first
-        @account = ::Finances::AccountForm.new(
-          **record
-              .attributes
-              .deep_symbolize_keys
-              .slice(:id, :name)
-              .merge(url: finances_account_path(record), http_method: :patch)
-        )
+    if @account.valid? && command_response.success?
+      record = command_response.args.first
+      @account = ::Finances::AccountForm.new(
+        **record
+            .attributes
+            .deep_symbolize_keys
+            .slice(:id, :name)
+            .merge(url: finances_account_path(record), http_method: :patch)
+      )
 
-        format.html { redirect_to finances_accounts_path, notice: "Account was successfully created." }
-      else
-        if command_response.args.last == Finances::Account::Create::NAME_NOT_UNIQUE_ERROR_MESSAGE
-          @account.errors.add(:name, :uniqueness, message: "already exists")
-        end
-
-        format.html { render :new, status: :unprocessable_entity }
+      flash[:notice] = "Account was successfully created."
+    else
+      if command_response.args.last == Finances::Account::Create::NAME_NOT_UNIQUE_ERROR_MESSAGE
+        @account.errors.add(:name, :uniqueness, message: "already exists")
       end
+
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -69,30 +67,27 @@ class Finances::AccountsController < FinancesController
     command = ::Finances::Account::Update.new(id: @account.id, name: @account.name)
     command_response = command.execute
 
-    respond_to do |format|
-      if @account.valid? && command_response.success?
-        record = command_response.args.first
-        @account = ::Finances::AccountForm.new(
-          **record
-              .attributes
-              .deep_symbolize_keys
-              .slice(:id, :name)
-              .merge(url: finances_account_url(record), http_method: :patch)
-        )
+    if @account.valid? && command_response.success?
+      record = command_response.args.first
+      @account = ::Finances::AccountForm.new(
+        **record
+            .attributes
+            .deep_symbolize_keys
+            .slice(:id, :name)
+            .merge(url: finances_account_url(record), http_method: :patch)
+      )
 
-        format.html { redirect_to finances_accounts_path, notice: "Account was successfully updated." }
-      else
-        if command_response.args.last == Finances::Account::Update::NOT_FOUND_ERROR_MESSAGE
-          @account.errors.add(:id, :invalid, message: "not found")
-        end
-
-        if command_response.args.last == Finances::Account::Update::NAME_NOT_UNIQUE_ERROR_MESSAGE
-          @account.errors.add(:name, :uniqueness, message: "already exists")
-        end
-
-
-        format.html { render :show, status: :unprocessable_entity }
+      flash[:notice] = "Account was successfully updated."
+    else
+      if command_response.args.last == Finances::Account::Update::NOT_FOUND_ERROR_MESSAGE
+        @account.errors.add(:id, :invalid, message: "not found")
       end
+
+      if command_response.args.last == Finances::Account::Update::NAME_NOT_UNIQUE_ERROR_MESSAGE
+        @account.errors.add(:name, :uniqueness, message: "already exists")
+      end
+
+      render :show, status: :unprocessable_entity
     end
   end
 
@@ -107,14 +102,10 @@ class Finances::AccountsController < FinancesController
     command = ::Finances::Account::Delete.new(id: @account.id)
     command_response = command.execute
 
-    respond_to do |format|
-      if command_response.success?
-        format.html { redirect_to finances_accounts_url, notice: "Account was successfully destroyed." }
-      else
-        @account.errors.add(:id, :invalid, message: "couldn't be deleted")
+    unless command_response.success?
+      @account.errors.add(:id, :invalid, message: "couldn't be deleted")
 
-        format.html { render :show, status: :unprocessable_entity }
-      end
+      render :show, status: :unprocessable_entity
     end
   end
 
