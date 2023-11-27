@@ -1,20 +1,13 @@
 <%# locals: (account:) -%>
 <%= form_with(model: account, url: account.url, method: account.http_method) do |form| %>
-  <% if account.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(account.errors.count, "error") %> prohibited this account from being saved:</h2>
-
-      <ul>
-        <% account.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="flex">
-    <%= form.label :name, class: "flex-1" do %>
-      <%= form.text_field :name, class: "w-full py-2 px-3 bg-neutral-100 dark:bg-neutral-800 rounded-lg border-[1px] border-neutral-300 dark:border-neutral-700" %>
+  <div class="flex flex-col">
+    <%= form.label :name, class: "block" do %>
+      <%= form.text_field :name, class: input_classes(account.errors.messages_for(:name).any?) %>
+    <% end %>
+    <% if account.errors.messages_for(:name).any? %>
+      <% account.errors.messages_for(:name).each do |error| %>
+        <span class="block text-red-500 pt-2 text-right"><%= error %></span>
+      <% end %>
     <% end %>
   </div>
 
