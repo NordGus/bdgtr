@@ -13,3 +13,11 @@
 
   <%= form.submit "Save", class: "hidden" %>
 <% end %>
+
+<% if account.persisted? %>
+  <%= link_to "Delete Account",
+              finances_account_path(account.id),
+              class: "block rounded-lg text-center px-3 py-2 font-bold mt-3 bg-red-600 hover:bg-red-700",
+              data: { turbo_method: :delete, turbo_frame: :account }
+  %>
+<% end %>
