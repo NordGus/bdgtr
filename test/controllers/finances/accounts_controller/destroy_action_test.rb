@@ -26,36 +26,68 @@ class Finances::AccountsController::DestroyActionTest < ActionDispatch::Integrat
       @account = accounts(:additional)
     end
 
-    test "should return a turbo-stream with action update" do
+    test "should return the expected amount of turbo-streams" do
       delete finances_account_path(@account)
 
-      assert_select "turbo-stream:match('action', ?)", "update", 1
+      assert_select "turbo-stream", 3
     end
 
-    test "should return a turbo-stream with target account" do
-      delete finances_account_path(@account)
+    class AccountTurboFrame < ViewTest
+      test "should return a turbo-stream with action update" do
+        delete finances_account_path(@account)
 
-      assert_select "turbo-stream:match('target', ?)", "account", 1
+        assert_select "turbo-stream[action='update'][target='account']", 1
+      end
+
+      test "turbo-stream with must contain a template with the account details partial" do
+        delete finances_account_path(@account)
+
+        assert_select "turbo-stream[action='update'][target='account'] template", 1 do
+          assert_select ".hidden[data-controller='finances--account-saved']", "", 1
+
+          assert_select "form:match('action', ?)", finances_account_path(@account), 1
+          assert_select "form:match('method', ?)", "post", 1
+
+          assert_select "form", 1 do
+            assert_select "input", 3
+
+            assert_select "input[type='hidden'][name='_method'][value='patch']", 1
+
+            assert_select "input:match('id', ?)", "finances_account_form_name", 1
+            assert_select "input:match('type', ?)", "text", 1
+            assert_select "input:match('value', ?)", @account.name, 1
+
+            assert_select "input:match('class', ?)", "hidden", 1
+            assert_select "input:match('type', ?)", "submit", 1
+          end
+        end
+      end
     end
 
-    test "should return a turbo-stream with with a template that contains the account details partial" do
-      delete finances_account_path(@account)
+    class AccountsPreviewTurboFrame < ViewTest
+      test "should return a turbo-stream with action remove" do
+        delete finances_account_path(@account)
 
-      assert_select "turbo-stream template", 1 do
-        assert_select "form:match('action', ?)", finances_account_path(@account), 1
-        assert_select "form:match('method', ?)", "post", 1
+        assert_select "turbo-stream[action='remove'][target='#{dom_id(@account)}']", 1
+      end
+    end
 
-        assert_select "form", 1 do
-          assert_select "input", 3
+    class ToastsTurboFrame < ViewTest
+      test "should return a turbo-stream with action append" do
+        delete finances_account_path(@account)
 
-          assert_select "input[type='hidden'][name='_method'][value='patch']", 1
+        assert_select "turbo-stream[action='append'][target='toasts']", 1
+      end
 
-          assert_select "input:match('id', ?)", "finances_account_form_name", 1
-          assert_select "input:match('type', ?)", "text", 1
-          assert_select "input:match('value', ?)", @account.name, 1
+      test "turbo-stream with must contain a template with the success toast" do
+        delete finances_account_path(@account)
 
-          assert_select "input:match('class', ?)", "hidden", 1
-          assert_select "input:match('type', ?)", "submit", 1
+        assert_select "turbo-stream[action='append'][target='toasts'] template", 1 do
+          assert_select "div[data-controller='toast']", 1 do
+            assert_select "p", 1 do
+              assert_select "span", @account.name, 1
+            end
+          end
         end
       end
     end
