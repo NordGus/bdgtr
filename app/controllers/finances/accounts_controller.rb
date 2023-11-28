@@ -88,8 +88,6 @@ class Finances::AccountsController < FinancesController
 
   # DELETE /finances/accounts/1
   def destroy
-    # TODO: Implement turbo-stream view
-
     @account = ::Finances::AccountForm.new(
       id: @account.id,
       name: @account.name,
@@ -99,7 +97,9 @@ class Finances::AccountsController < FinancesController
     command = ::Finances::Account::Delete.new(id: @account.id)
     command_response = command.execute
 
-    unless command_response.success?
+    if command_response.success?
+      @record = command_response.args.first
+    else
       @account.errors.add(:id, :invalid, message: "couldn't be deleted")
 
       render :show, status: :unprocessable_entity, error: "Account couldn't be deleted"
