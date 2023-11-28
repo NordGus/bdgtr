@@ -22,6 +22,12 @@ class Finances::AccountsController::UpdateActionTest < ActionDispatch::Integrati
       @account = accounts(:additional)
     end
 
+    test "should return the expected amount of turbo-streams" do
+      patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
+
+      assert_select "turbo-stream", 3
+    end
+
     class AccountTurboFrame < ViewTest
       test "should return a turbo-stream with action update" do
         patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
@@ -55,18 +61,40 @@ class Finances::AccountsController::UpdateActionTest < ActionDispatch::Integrati
     end
 
     class AccountsPreviewTurboFrame < ViewTest
-      test "should return a turbo-stream with action update" do
+      test "should return a turbo-stream with action replace" do
         patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
 
         assert_select "turbo-stream[action='replace'][target='#{dom_id(@account)}']", 1
       end
 
-      test "turbo-stream with must contain a template with the account details partial" do
+      test "turbo-stream with must contain a template with the account preview partial" do
         patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
 
         assert_select "turbo-stream[action='replace'][target='#{dom_id(@account)}'] template", 1 do
           assert_select "a[id='#{dom_id(@account)}'][href='#{finances_account_path(@account)}']", 1 do
             assert_select "h2", "On the bounce", 1
+          end
+        end
+      end
+    end
+
+    class ToastsTurboFrame < ViewTest
+      test "should return a turbo-stream with action append" do
+        patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
+
+        assert_select "turbo-stream[action='append'][target='toasts']", 1
+      end
+
+      test "turbo-stream with must contain a template with the success toast" do
+        patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
+
+        assert_select "turbo-stream[action='append'][target='toasts'] template", 1 do
+          assert_select "div[data-controller='toast']", 1 do
+            assert_select "p", 1 do
+              assert_select "a[href='#{finances_account_path(@account)}'][data-turbo-frame='account'][data-action='click->finances#displayAccount']",
+                            "On the bounce",
+                            1
+            end
           end
         end
       end
