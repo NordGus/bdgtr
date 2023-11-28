@@ -26,19 +26,15 @@ class Finances::AccountsController::UpdateActionTest < ActionDispatch::Integrati
       test "should return a turbo-stream with action update" do
         patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
 
-        assert_select "turbo-stream:match('action', ?)", "update", 1
+        assert_select "turbo-stream[action='update'][target='account']", 1
       end
 
-      test "should return a turbo-stream with target account" do
+      test "turbo-stream with must contain a template with the account details partial" do
         patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
 
-        assert_select "turbo-stream:match('target', ?)", "account", 1
-      end
+        assert_select "turbo-stream[action='update'][target='account'] template", 1 do
+          assert_select ".hidden[data-controller='finances--account-saved']", "", 1
 
-      test "should return a turbo-stream with with a template that contains the account details partial" do
-        patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
-
-        assert_select "turbo-stream template", 1 do
           assert_select "form:match('action', ?)", finances_account_path(@account), 1
           assert_select "form:match('method', ?)", "post", 1
 
@@ -49,10 +45,28 @@ class Finances::AccountsController::UpdateActionTest < ActionDispatch::Integrati
 
             assert_select "input:match('id', ?)", "finances_account_form_name", 1
             assert_select "input:match('type', ?)", "text", 1
-            assert_select "input:match('value', ?)", @account.name, 1
+            assert_select "input:match('value', ?)", "On the bounce", 1
 
             assert_select "input:match('class', ?)", "hidden", 1
             assert_select "input:match('type', ?)", "submit", 1
+          end
+        end
+      end
+    end
+
+    class AccountsPreviewTurboFrame < ViewTest
+      test "should return a turbo-stream with action update" do
+        patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
+
+        assert_select "turbo-stream[action='replace'][target='#{dom_id(@account)}']", 1
+      end
+
+      test "turbo-stream with must contain a template with the account details partial" do
+        patch finances_account_path(@account), params: { finances_account_form: { name: "On the bounce" } }
+
+        assert_select "turbo-stream[action='replace'][target='#{dom_id(@account)}'] template", 1 do
+          assert_select "a[id='#{dom_id(@account)}'][href='#{finances_account_path(@account)}']", 1 do
+            assert_select "h2", "On the bounce", 1
           end
         end
       end
