@@ -4,7 +4,7 @@
   <%= render partial: "finances/accounts/detail", locals: { account: @account } %>
 <% end %>
 
-<%= turbo_stream.prepend dom_id(@record) do %>
+<%= turbo_stream.prepend :accounts do %>
   <%= render partial: "finances/accounts/preview", locals: { account: @record } %>
 <% end %>
 
