@@ -88,6 +88,8 @@ class Finances::AccountsController < FinancesController
 
   # DELETE /finances/accounts/1
   def destroy
+    # TODO: Implement turbo-stream view
+
     @account = ::Finances::AccountForm.new(
       id: @account.id,
       name: @account.name,
