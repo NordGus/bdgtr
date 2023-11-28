@@ -1,7 +1,6 @@
 class Finances::AccountsController < FinancesController
   before_action :set_account, only: %i[ show update destroy ]
 
-  # GET /finances/accounts
   def index
     @accounts = []
     command = ::Finances::Account::GetAll.new
@@ -10,7 +9,6 @@ class Finances::AccountsController < FinancesController
     @accounts = command_response.args.first.scope if command_response.success?
   end
 
-  # GET /finances/accounts/new
   def new
     @account = ::Finances::AccountForm.new(
       name: "New Account",
@@ -19,7 +17,6 @@ class Finances::AccountsController < FinancesController
     )
   end
 
-  # GET /finances/accounts/1
   def show
     @account = ::Finances::AccountForm.new(
       id: @account.id,
@@ -29,7 +26,6 @@ class Finances::AccountsController < FinancesController
     )
   end
 
-  # POST /finances/accounts
   def create
     @account = ::Finances::AccountForm.new(name: account_params[:name], url: finances_accounts_path, http_method: :post)
     command = ::Finances::Account::Create.new(name: @account.name)
@@ -53,7 +49,6 @@ class Finances::AccountsController < FinancesController
     end
   end
 
-  # PATCH/PUT /finances/accounts/1
   def update
     @account = ::Finances::AccountForm.new(
       id: @account.id,
@@ -86,7 +81,6 @@ class Finances::AccountsController < FinancesController
     end
   end
 
-  # DELETE /finances/accounts/1
   def destroy
     @account = ::Finances::AccountForm.new(
       id: @account.id,
@@ -107,12 +101,10 @@ class Finances::AccountsController < FinancesController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_account
       @account = ::Account.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def account_params
       params.fetch(:finances_account_form, {}).permit(:name)
     end
