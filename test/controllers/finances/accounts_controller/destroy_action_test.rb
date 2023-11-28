@@ -60,6 +60,8 @@ class Finances::AccountsController::DestroyActionTest < ActionDispatch::Integrat
             assert_select "input:match('class', ?)", "hidden", 1
             assert_select "input:match('type', ?)", "submit", 1
           end
+
+          assert_select "a[href='#{finances_account_path(@account)}'][data-turbo-method='delete'][data-turbo-frame='account']", 1
         end
       end
     end

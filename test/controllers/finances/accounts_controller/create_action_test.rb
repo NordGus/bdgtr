@@ -49,6 +49,8 @@ class Finances::AccountsController::CreateActionTest < ActionDispatch::Integrati
             assert_select "input:match('class', ?)", "hidden", 1
             assert_select "input:match('type', ?)", "submit", 1
           end
+
+          assert_select "a[data-turbo-method='delete'][data-turbo-frame='account']", 1
         end
       end
     end
