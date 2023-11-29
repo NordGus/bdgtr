@@ -19,7 +19,7 @@ class Finances::AccountsController::CreateActionTest < ActionDispatch::Integrati
     test "should return the expected amount of turbo-streams" do
       post finances_accounts_path, params: { finances_account_form: { name: "On the bounce" } }
 
-      assert_select "turbo-stream", 3
+      assert_select "turbo-stream", 4
     end
 
     class AccountTurboFrame < ViewTest
@@ -39,18 +39,34 @@ class Finances::AccountsController::CreateActionTest < ActionDispatch::Integrati
 
           assert_select "form", 1 do
             assert_select "input", 3
-
             assert_select "input[type='hidden'][name='_method'][value='patch']", 1
-
-            assert_select "input:match('id', ?)", "finances_account_form_name", 1
-            assert_select "input:match('type', ?)", "text", 1
-            assert_select "input:match('value', ?)", "On the bounce", 1
-
             assert_select "input:match('class', ?)", "hidden", 1
             assert_select "input:match('type', ?)", "submit", 1
           end
 
-          assert_select "a[data-turbo-method='delete'][data-turbo-frame='account']", 1
+          assert_select "a[data-action='click->modal#open']", "Delete Account", 1
+        end
+      end
+    end
+
+    class ModalBodyTurboStream < ViewTest
+      test "should return on turbo-stream that updates the account turbo-frame" do
+        post finances_accounts_path, params: { finances_account_form: { name: "On the bounce" } }
+
+        assert_select "turbo-stream[action='update'][target='modal_body']", 1
+      end
+
+      test "should return the expected template inside the turbo-stream" do
+        post finances_accounts_path, params: { finances_account_form: { name: "On the bounce" } }
+
+        assert_select "turbo-stream[action='update'][target='modal_body'] template", 1 do
+          assert_select(
+            "a[data-turbo-method='delete'][data-turbo-frame='account'][data-action='click->modal#close']",
+            "Yes",
+            1
+          )
+
+          assert_select "a[data-action='click->modal#close']", "No", 1
         end
       end
     end
