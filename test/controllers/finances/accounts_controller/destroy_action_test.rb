@@ -50,18 +50,12 @@ class Finances::AccountsController::DestroyActionTest < ActionDispatch::Integrat
 
           assert_select "form", 1 do
             assert_select "input", 3
-
             assert_select "input[type='hidden'][name='_method'][value='patch']", 1
-
-            assert_select "input:match('id', ?)", "finances_account_form_name", 1
-            assert_select "input:match('type', ?)", "text", 1
-            assert_select "input:match('value', ?)", @account.name, 1
-
             assert_select "input:match('class', ?)", "hidden", 1
             assert_select "input:match('type', ?)", "submit", 1
           end
 
-          assert_select "a[href='#{finances_account_path(@account)}'][data-turbo-method='delete'][data-turbo-frame='account']", 1
+          assert_select "a[data-action='click->modal#open']", "Delete Account", 1
         end
       end
     end
