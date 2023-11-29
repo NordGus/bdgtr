@@ -18,6 +18,7 @@ class Finances::AccountsController < FinancesController
   end
 
   def show
+    @record = @account
     @account = ::Finances::AccountForm.new(
       id: @account.id,
       name: @account.name,

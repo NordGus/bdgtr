@@ -2,6 +2,10 @@
   <%= render partial: "finances/accounts/detail", locals: { account: @account } %>
 <% end %>
 
+<%= turbo_stream.update :modal_body do %>
+  <%= render partial: "finances/accounts/delete_modal", locals: { account: @record } %>
+<% end %>
+
 <% if flash[:error].present? %>
   <%= turbo_stream.append :toasts do %>
     <%= render "toasts/error" do %>
