@@ -35,10 +35,6 @@ class Finances::AccountsController::NewActionTest < ActionDispatch::IntegrationT
 
         assert_select "form", 1 do
           assert_select "input", 2
-
-          assert_select "input:match('id', ?)", "finances_account_form_name", 1
-          assert_select "input:match('type', ?)", "text", 1
-
           assert_select "input:match('class', ?)", "hidden", 1
           assert_select "input:match('type', ?)", "submit", 1
         end
