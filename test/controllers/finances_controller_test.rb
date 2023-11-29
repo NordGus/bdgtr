@@ -24,6 +24,19 @@ class FinancesControllerTest < ActionDispatch::IntegrationTest
         assert_select "#toasts.absolute", 1
       end
 
+      test "contains a single modal skeleton positioned relative to the finances parent" do
+        get finances_path
+
+        assert_select "#modal.absolute.hidden.top-0.right-0.bottom-0.left-0", 1 do
+          assert_select ".flex-grow.flex.flex-col.relative", 1 do
+            assert_select ".flex-grow.block.opacity-60[data-action='click->modal#close']", "", 1
+            assert_select ".block.absolute.bottom-0.left-0.right-0", "", 1
+          end
+
+          assert_select "#modal_body", "", 1
+        end
+      end
+
       test "contains a single element with id header" do
         get finances_path
 
