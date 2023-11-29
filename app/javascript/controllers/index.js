@@ -6,6 +6,7 @@ import { application } from "./application"
 
 // Shared Stimulus Controllers imports
 import ToastController from "./toast_controller"
+import ModalController from "./modal_controller"
 
 // Finances Stimulus Controllers imports
 import FinancesController from "./finances/finances_controller"
@@ -13,6 +14,7 @@ import AccountSavedController from "./finances/account_saved_controller"
 
 // Shared Stimulus Controllers registration
 application.register("toast", ToastController)
+application.register("modal", ModalController)
 
 // Finances Stimulus Controllers registration
 application.register("finances", FinancesController)
