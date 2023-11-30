@@ -1,0 +1,24 @@
+<%# locals: (account:) -%>
+<%= form_with(model: account, url: account.url, method: account.http_method) do |form| %>
+  <div class="flex flex-col">
+    <%= form.label :name, class: "block" do %>
+      <%= form.text_field :name, class: input_classes(account.errors.messages_for(:name).any?) %>
+      <% if account.errors.messages_for(:name).any? %>
+        <% account.errors.messages_for(:name).each do |error| %>
+          <span class="block text-red-500 pt-2 text-right"><%= error %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= form.submit "Save", class: "hidden" %>
+<% end %>
+
+<% if account.persisted? %>
+  <a
+    class="block rounded-lg px-3 py-2 mt-3 text-center font-bold cursor-pointer bg-red-600 hover:bg-red-700"
+    data-action="click->modal#open"
+  >
+    Delete Account
+  </a>
+<% end %>

@@ -1,0 +1,17 @@
+<div data-controller="toast" class="w-full flex flex-col justify-center items-center bg-red-500 rounded-lg text-neutral-100">
+  <div class="m-0 p-3">
+    <%= yield %>
+  </div>
+  <div class="flex m-0 p-0 w-full">
+    <div
+      class="w-0 h-1 bg-red-700 transition-all duration-[3000ms] ease-linear text-transparent"
+      data-toast-target="progress"
+    ></div>
+  </div>
+  <a
+    class="block p-3 my-0 w-full rounded-b-lg bg-red-600 hover:bg-red-700 text-center"
+    data-action="click->toast#clear"
+  >
+    Clear
+  </a>
+</div>

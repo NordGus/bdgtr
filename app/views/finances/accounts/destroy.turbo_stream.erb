@@ -1,0 +1,13 @@
+<%= turbo_stream.update :account do %>
+  <div class="hidden" data-controller="finances--account-saved"></div>
+
+  <%= render partial: "finances/accounts/detail", locals: { account: @account } %>
+<% end %>
+
+<%= turbo_stream.remove dom_id(@record) %>
+
+<%= turbo_stream.append :toasts do %>
+  <%= render "toasts/success" do %>
+    <p>Account <span class="font-bold underline"><%= @record.name %></span> was successfully deleted</p>
+  <% end %>
+<% end %>

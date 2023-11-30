@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start Development Environment" type="CompoundRunConfigurationType">
+    <toRun name="Build CSS" type="js.build_tools.npm" />
+    <toRun name="Build Javascript" type="js.build_tools.npm" />
+    <toRun name="Developement Server" type="RailsRunConfigurationType" />
+    <method v="2" />
+  </configuration>
+</component>

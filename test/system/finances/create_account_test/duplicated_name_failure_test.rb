@@ -1,0 +1,43 @@
+require './test/system/finances/create_account_test'
+
+class Finances::CreateAccountTest::DuplicatedNameFailureTest < Finances::CreateAccountTest
+  test "must not create the name of the account" do
+    visit finances_path
+
+    click_on "Add"
+
+    name_input = find "#account form input[name='finances_account_form[name]']"
+    name_input.fill_in with: duplicated_account_name
+
+    find("#header a[data-finances-target='save']", text: "Save").click
+
+    assert_selector "#accounts a", visible: false, count: accounts.count
+  end
+
+  test "must return the details view with the name input marked as having an error" do
+    visit finances_path
+
+    click_on "Add"
+
+    name_input = find "#account form input[name='finances_account_form[name]']"
+    name_input.fill_in with: duplicated_account_name
+
+    find("#header a[data-finances-target='save']", text: "Save").click
+
+    assert_selector "#account form input[name='finances_account_form[name]']", class: "border-red-500"
+  end
+
+
+  test "must return the details view with the name input error list" do
+    visit finances_path
+
+    click_on "Add"
+
+    name_input = find "#account form input[name='finances_account_form[name]']"
+    name_input.fill_in with: duplicated_account_name
+
+    find("#header a[data-finances-target='save']", text: "Save").click
+
+    assert_selector "#account form label[for='finances_account_form_name'] span.text-red-500", text: "already exists"
+  end
+end

@@ -1,0 +1,3 @@
+<%= turbo_stream.update :account do %>
+  <%= render partial: "finances/accounts/detail", locals: { account: @account } %>
+<% end %>

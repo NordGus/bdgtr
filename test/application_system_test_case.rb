@@ -1,5 +1,7 @@
 require "test_helper"
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
-  driven_by :selenium, using: :chrome, screen_size: [1400, 1400]
+  parallelize workers: 2
+
+  driven_by :selenium, using: :headless_firefox, screen_size: [1920, 1080]
 end

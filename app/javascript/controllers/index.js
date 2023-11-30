@@ -4,5 +4,18 @@
 
 import { application } from "./application"
 
-import HelloController from "./hello_controller"
-application.register("hello", HelloController)
+// Shared Stimulus Controllers imports
+import ToastController from "./toast_controller"
+import ModalController from "./modal_controller"
+
+// Finances Stimulus Controllers imports
+import FinancesController from "./finances/finances_controller"
+import AccountSavedController from "./finances/account_saved_controller"
+
+// Shared Stimulus Controllers registration
+application.register("toast", ToastController)
+application.register("modal", ModalController)
+
+// Finances Stimulus Controllers registration
+application.register("finances", FinancesController)
+application.register("finances--account-saved", AccountSavedController)

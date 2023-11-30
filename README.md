@@ -1,7 +1,6 @@
-# README
+# bdgtr
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A personal finances application to have your financial data in a centralized place. Inspired by the Android application 1Money and my frustrations with it.
 
 Things you may want to cover:
 

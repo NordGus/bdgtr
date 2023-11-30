@@ -1,0 +1,19 @@
+<%= turbo_stream.update :account do %>
+  <div class="hidden" data-controller="finances--account-saved"></div>
+
+  <%= render partial: "finances/accounts/detail", locals: { account: @account } %>
+<% end %>
+
+<%= turbo_stream.update :modal_body do %>
+  <%= render partial: "finances/accounts/delete_modal", locals: { account: @record } %>
+<% end %>
+
+<%= turbo_stream.prepend :accounts do %>
+  <%= render partial: "finances/accounts/preview", locals: { account: @record } %>
+<% end %>
+
+<%= turbo_stream.append :toasts do %>
+  <%= render "toasts/success" do %>
+    <p>Account <a href="<%= finances_account_path(@record) %>" data-turbo-frame="account" data-action="click->finances#displayAccount" class="font-bold underline"><%= @record.name %></a> was successfully created</p>
+  <% end %>
+<% end %>

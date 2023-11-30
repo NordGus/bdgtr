@@ -36,5 +36,5 @@
 !/app/assets/builds/.keep
 /public/assets
 
-# ignore JetBrains run configurations
-/.run
+# Ignore JetBrains configurations
+/.idea

@@ -1,28 +1,14 @@
 services:
-  app:
-    build:
-      dockerfile: .docker/development.Dockerfile
-      context: .
-      args:
-        RUBY_VERSION: 3.2.2
-        NODE_VERSION: 20.9.0
-    ports:
-      - "3000:3000"
-    volumes:
-      - .:/usr/src/app
-    command: tail -f /dev/null
-    depends_on:
-      - db
-      - redis
-
   db:
     image: postgres:16.1
     restart: always
     environment:
       POSTGRES_USER: bdgtr
       POSTGRES_PASSWORD: localdev
-    volumes:
-      - bdgtr-db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+#    volumes:
+#      - bdgtr-db:/var/lib/postgresql/data
 
   redis:
     image: redis:7.2
@@ -30,3 +16,4 @@ services:
 
 volumes:
   bdgtr-db:
+  bdgtr-redis:
