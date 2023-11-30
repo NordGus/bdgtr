@@ -13,7 +13,9 @@ class Finances::AccountForm
   validates :url, presence: true
   validates :http_method, presence: true
 
-  validates :name, presence: true, length: { minimum: 5, if: ->(f) { f.name.present? } }
+  validates :name,
+            presence: true,
+            length: { minimum: ::Account::MINIMUM_NAME_LENGTH.freeze, if: ->(f) { f.name.present? } }
 
   def initialize(id: nil, name:, url:, http_method:)
     super()

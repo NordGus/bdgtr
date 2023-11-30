@@ -5,7 +5,7 @@
 # Note: I'm aware that I'm duplicating behavior with ActiveRecord models, but my idea is to use this commands to
 # eventually migrate the application to a different language or framework.
 class Finances::Account::Create < Command::Base
-  NAME_MINIMUM_LENGTH = 5.freeze
+  NAME_MINIMUM_LENGTH = ::Account::MINIMUM_NAME_LENGTH.freeze
 
   NAME_NOT_UNIQUE_ERROR_MESSAGE = "Account already exists".freeze
 
