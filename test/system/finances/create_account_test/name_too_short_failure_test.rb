@@ -1,7 +1,7 @@
 require './test/system/finances/create_account_test'
 
 class Finances::CreateAccountTest::NameTooShortFailureTest < Finances::CreateAccountTest
-  test "must not update the name of the account" do
+  test "must not create the name of the account" do
     visit finances_path
 
     click_on "Add"

@@ -1,7 +1,7 @@
 require './test/system/finances/create_account_test'
 
 class Finances::CreateAccountTest::SuccessTest < Finances::CreateAccountTest
-  test "must update the name of the account" do
+  test "must create the name of the account" do
     visit finances_path
 
     click_on "Add"
