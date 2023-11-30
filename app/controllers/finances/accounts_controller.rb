@@ -1,5 +1,6 @@
 class Finances::AccountsController < FinancesController
   before_action :set_account, only: %i[ show update destroy ]
+  before_action :set_account_record, only: %i[ show update destroy ]
 
   def index
     @accounts = []
@@ -18,7 +19,6 @@ class Finances::AccountsController < FinancesController
   end
 
   def show
-    @record = @account
     @account = ::Finances::AccountForm.new(
       id: @account.id,
       name: @account.name,
@@ -102,11 +102,15 @@ class Finances::AccountsController < FinancesController
   end
 
   private
-    def set_account
-      @account = ::Account.find(params[:id])
-    end
+  def set_account
+    @account = ::Account.find(params[:id])
+  end
 
-    def account_params
-      params.fetch(:finances_account_form, {}).permit(:name)
-    end
+  def set_account_record
+    @record = @account
+  end
+
+  def account_params
+    params.fetch(:finances_account_form, {}).permit(:name)
+  end
 end
