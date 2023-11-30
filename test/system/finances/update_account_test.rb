@@ -16,4 +16,8 @@ class Finances::UpdateAccountTest < ApplicationSystemTestCase
   def duplicated_account_name
     accounts(:personal).name
   end
+
+  def short_account_name
+    "Test"
+  end
 end
