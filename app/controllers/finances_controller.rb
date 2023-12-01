@@ -4,6 +4,6 @@
 # It only contains a single render method show, that serves the base view of the section to work as a SPA-like
 # Turbo-based application.
 class FinancesController < ApplicationController
-  def show
+  def applet
   end
 end

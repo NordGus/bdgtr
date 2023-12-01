@@ -1,6 +1,6 @@
 require "test_helper"
 
-class FinancesController::ShowActionTest < ActionDispatch::IntegrationTest
+class FinancesController::AppletActionTest < ActionDispatch::IntegrationTest
   test "responses to get with a success" do
     get finances_path
 

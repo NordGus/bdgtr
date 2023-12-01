@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "bdgtr#root"
 
-  get :finances, controller: :finances, action: :show, as: :finances
+  get :finances, controller: :finances, action: :applet, as: :finances
 
   namespace :finances do
     resources :accounts, only: %i[index show new create update destroy], defaults: { format: :turbo_stream }
