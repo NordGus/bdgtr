@@ -23,7 +23,7 @@ class MockCommand < Command::Base
 end
 
 class Command::BaseTest < ActiveSupport::TestCase
-  class Validation < ActiveSupport::TestCase
+  class ValidationTest < self
     test "validates the data like a ActiveRecord model but return a Railway::Response" do
       command = MockCommand.new(%w(this is a test))
 

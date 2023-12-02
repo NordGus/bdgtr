@@ -1,63 +1,98 @@
 require "test_helper"
 
 class Railway::ResponseTest < ActiveSupport::TestCase
-  test "#new" do
-    response = Railway::Response.new(:test, "this", "is", "a", "test")
+  class ClassMethodTest < self
+    class SuccessTest < self
+      test "returns an instance with type success" do
+        response = Railway::Response.success("learn", "to", "fly")
 
-    assert_instance_of Railway::Response, response, "failed to initialize"
-    assert_equal response.type, :test, "invalid type"
-    assert_equal response.args, %w[this is a test], "invalid arguments"
+        assert_equal response.type, :success, "invalid type"
+      end
+
+      test "returns an instance with the arguments" do
+        response = Railway::Response.success("learn", "to", "fly")
+
+        assert_equal response.args, %w[learn to fly], "invalid arguments"
+      end
+    end
+
+    class FailureTest < self
+      test "returns an instance with type failure" do
+        response = Railway::Response.failure("learn", "to", "fly")
+
+        assert_equal response.type, :failure, "invalid type"
+      end
+
+      test "returns an instance with the arguments" do
+        response = Railway::Response.failure("learn", "to", "fly")
+
+        assert_equal response.args, %w[learn to fly], "invalid arguments"
+      end
+    end
   end
 
-  test "#success" do
-    response = Railway::Response.success("this", "is", "a", "test")
+  class InstanceMethodTest < self
+    # IsSuccessTest actually test the instance method :success?
+    class IsSuccessTest < self
+      test "returns true only if type equal success" do
+        response = Railway::Response.new(:success, "making", "a", "fire")
 
-    assert_equal response.type, :success, "invalid type"
-    assert_equal response.args, %w[this is a test], "invalid arguments"
-  end
+        assert response.success?, "invalid implementation"
+      end
 
-  test "#failure" do
-    response = Railway::Response.failure("this", "is", "a", "test")
+      test "returns false if type is anything other than success" do
+        response = Railway::Response.new(:test, "making", "a", "fire")
 
-    assert_equal response.type, :failure, "invalid type"
-    assert_equal response.args, %w[this is a test], "invalid arguments"
-  end
+        assert_not response.success?, "invalid implementation"
+      end
+    end
 
-  test "#and_then when success" do
-    response = Railway::Response.success("this", "is", "a", "test")
+    class AndThenTest < self
+      test "when is from a successful response" do
+        response = Railway::Response.new(:success, "it", "started", "with", "a", "spark")
 
-    assert_equal response.and_then{ |*args| Railway::Response.new(:test, "this comes from a block") }.type, :test, "bad block execution"
-    assert_equal response.and_then{ |*args| Railway::Response.new(:test, "this comes from a block") }.args, ["this comes from a block"], "bad block execution"
-  end
+        assert_equal block_response_return,
+                     response.and_then{ |*args| block_response_return },
+                     "must return the response inside the block"
+      end
 
-  test "#and_then when failure" do
-    response = Railway::Response.failure("this", "is", "a", "test")
+      test "when is from any other type of response" do
+        response = Railway::Response.new(:not_success, "this", "is", "a", "test")
 
-    assert_equal response.and_then{ |*args| Railway::Response.new(:test, "this comes from a block") }, response, "bad block execution"
-  end
+        assert_equal response,
+                     response.and_then{ |*args| block_response_return },
+                     "must return itself"
+      end
 
-  test "#if_failed when success" do
-    response = Railway::Response.success("this", "is", "a", "test")
+      def block_response_return
+        @block_response_return ||= Railway::Response.new(:from_block, "I'm something from nothing")
+      end
+    end
 
-    assert_equal response.if_failed{ |*args| Response.new(:test, "this comes from a block") }, response, "bad block execution"
-  end
+    class IfFailedTest < self
+      test "when is from a failed response" do
+        response = Railway::Response.new(:failure, "it", "was", "the", "feast", "and", "the", "famine")
 
-  test "#if_failed when failure" do
-    response = Railway::Response.failure("this", "is", "a", "test")
+        assert_equal block_response_return,
+                     response.if_failed{ |*args| block_response_return },
+                     "must return the response inside the block"
+      end
 
-    assert_equal response.if_failed{ |*args| Railway::Response.new(:test, "this comes from a block") }.type, :test, "bad block execution"
-    assert_equal response.if_failed{ |*args| Railway::Response.new(:test, "this comes from a block") }.args, ["this comes from a block"], "bad block execution"
-  end
+      test "when is from any other type of response" do
+        response = Railway::Response.new(:not_failure, "it", "was", "the", "feast", "and", "the", "famine")
 
-  test "#success? returns true only if type equal :success" do
-    response = Railway::Response.success("this", "is", "a", "test")
+        assert_equal response,
+                     response.and_then{ |*args| block_response_return },
+                     "must return itself"
+      end
 
-    assert response.success?, "invalid implementation"
-  end
-
-  test "#success? returns false if type is anything other than :success" do
-    response = Railway::Response.new(:test, "this", "is", "a", "test")
-
-    assert_not response.success?, "invalid implementation"
+      def block_response_return
+        @block_response_return ||= Railway::Response.new(
+          :from_block,
+          "Hey, where is the monument?",
+          "To the dreams we forget?"
+        )
+      end
+    end
   end
 end
