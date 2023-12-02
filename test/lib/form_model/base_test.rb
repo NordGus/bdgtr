@@ -19,7 +19,7 @@ class FormModel::BaseTest < ActiveSupport::TestCase
     end
   end
 
-  class ClassMethodTest < self
+  class InstanceMethodTest < self
     class PersistedTest < self
       test "raises NotImplementedError" do
         form = ::FormModel::Base.new(url: "The Art of War", http_method: :sabaton)
