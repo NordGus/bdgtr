@@ -1,0 +1,20 @@
+class <%= class_name %>Form < FormModel::Base
+<% attributes.each do |attr| %>
+  attribute :<%= attr.name %>, :<%= attr.type %>
+<% end %>
+
+  # add validations to your attributes like it was an ActiveRecord model
+  # validate :attr, presence: true
+
+  def initialize(<%= (attributes.to_a.map{ |attr| attr.name } + ["url", "http_method"]).join(":, ") %>:)
+    super(url: url, http_method: http_method)
+
+  <% attributes.each do |attr| %>
+    self.<%= attr.name %> = <%= attr.name %><% end %>
+  end
+
+  # you must implement the persisted? method otherwise it will raise a NotImplementedError exception.
+  def persisted?
+    super
+  end
+end

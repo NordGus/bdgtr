@@ -1,0 +1,9 @@
+Description:
+    Generate a FormModel to use ActiveRecord-like behavior to drive form templates.
+
+Example:
+    bin/rails generate form Thing
+
+    This will create:
+        app/forms/thing_form.rb
+        test/form/thing_form_test.rb

@@ -1,0 +1,17 @@
+require "test_helper"
+
+class <%= class_name %>FormTest < ActiveSupport::TestCase
+  test "assets" do
+    form = <%= class_name %>Form.new(<%= (attributes.to_a.map{ |attr| attr.name } + ["url", "http_method"]).join(": nil, ") %>: nil)
+
+    assert_instance_of <%= class_name %>Form, form
+  end
+
+  test "should implement persisted? method" do
+    form = <%= class_name %>Form.new(<%= (attributes.to_a.map{ |attr| attr.name } + ["url", "http_method"]).join(": nil, ") %>: nil)
+
+    assert_raise NotImplementedError do
+      form.persisted?
+    end
+  end
+end
