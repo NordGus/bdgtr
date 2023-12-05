@@ -7,12 +7,12 @@ class FinancesController::AppletActionTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  class View < ActionDispatch::IntegrationTest
+  class ViewTest < self
     test "contains a single element with id finances" do
       get finances_path
 
       assert_select "#finances", 1
-      assert_select "#finances:match('data-controller', ?)", "finances", 1
+      assert_select "#finances:match('data-controller', ?)", "finances modal", 1
       assert_select "#finances:match('data-action', ?)", "finances--account-saved:success->finances#hideAccount", 1
     end
 
