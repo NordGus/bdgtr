@@ -1,0 +1,40 @@
+<%# app/views/balance/applet.html.erb. %>
+<%# This view is the base of Bdgtr's balance section. The client should interact with it using Turbo. %>
+<div
+  id="balance"
+  class="
+    flex-1 w-full max-w-[420px] md:max-h-[95vh]
+    m-0 p-3 relative md:rounded-lg
+    bg-neutral-100 dark:bg-neutral-800
+    grid grid-rows-applet
+  "
+  data-controller="balance modal"
+  data-action="balance--transaction-saved:success->modal#close"
+>
+  <div id="toasts" class="absolute flex flex-col justify-center items-center gap-2 z-50 top-0 w-full p-3"></div>
+  <%= render partial: "layouts/modal" %>
+  <div id="header" class="pb-3 pt-5 flex justify-between items-center">
+    <div id="title" class="flex justify-end items-center">
+      <h1 class="text-3xl">Balance</h1>
+    </div>
+    <a
+      data-balance-target="new"
+      href="<%# new_finances_account_path %>"
+      class="py-2 px-3 rounded-lg cursor-pointer"
+      data-action="click->modal#open"
+      data-turbo-frame="modal"
+    >
+      Add
+    </a>
+  </div>
+
+  <%=
+    turbo_frame_tag :transactions,
+                    #src: finances_accounts_path,
+                    #loading: "lazy",
+                    class: "overflow-auto",
+                    data: { balance_target: "transactions" }
+  %>
+
+  <%= render partial: "layouts/menu" %>
+</div>

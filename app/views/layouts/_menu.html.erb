@@ -1,7 +1,12 @@
-<div id="menu" class="pt-3 flex w-full">
+<div id="menu" class="pt-3 flex w-full gap-2">
   <%=
     link_to "Finances",
             finances_path,
             class: menu_item_classes(item_controller: "finances", current_controller: controller_name)
+  %>
+  <%=
+    link_to "Balance",
+            balance_path,
+            class: menu_item_classes(item_controller: "balance", current_controller: controller_name)
   %>
 </div>
