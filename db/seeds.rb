@@ -27,15 +27,15 @@ unless Transaction.any?
   offset_in_days = 30
   expenses_amounts = [BigDecimal("7.69"), BigDecimal("11.70"), BigDecimal("24.69"), BigDecimal("9.69")].cycle
 
-  offset_in_days.times do |days|
-    next unless days.even?
+  offset_in_days.times do |offset|
+    next unless offset.even?
 
     Transaction.create!(
       from: personal_account,
       to: expense_account,
       amount: expenses_amounts.next,
-      issued_at: starting_at - (offset_in_days - days + 1).days,
-      executed_at: starting_at - (offset_in_days - days).days
+      issued_at: starting_at - (offset_in_days - offset).days,
+      executed_at: starting_at - (offset_in_days - offset - 1).days
     )
   end
 
@@ -100,5 +100,4 @@ unless Transaction.any?
     issued_at: starting_at + 13.days,
     executed_at: nil
   )
-
 end
