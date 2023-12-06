@@ -15,5 +15,6 @@ Rails.application.routes.draw do
   get :balance, controller: :balance, action: :applet, as: :balance
 
   namespace :balance do
+    resources :transactions, only: %i[index show new create update destroy], defaults: { format: :turbo_stream }
   end
 end

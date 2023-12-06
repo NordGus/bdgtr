@@ -1,0 +1,11 @@
+<%# app/views/balance/transactions/index.turbo_stream.erb %>
+<%= turbo_stream.append :transactions do %>
+  <% @transactions.each do |transaction| %>
+    <div>
+      <div><%= transaction.from.name %> -> <%= transaction.to.name %></div>
+      <div>Amount: <%= transaction.amount %></div>
+      <div>Issued At: <%= transaction.issued_at %></div>
+      <div>Executed At: <%= transaction.executed_at %></div>
+    </div>
+  <% end %>
+<% end %>
